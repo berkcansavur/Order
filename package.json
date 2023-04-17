@@ -1,0 +1,22 @@
+{
+  "name": "order",
+  "version": "1.0.0",
+  "description": "Low Scale Ordering",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berkcansavur/Order.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/berkcansavur/Order/issues"
+  },
+  "homepage": "https://github.com/berkcansavur/Order#readme",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
