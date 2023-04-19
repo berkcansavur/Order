@@ -1,3 +1,4 @@
+const validator = require('validator');
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     name:{
@@ -10,13 +11,23 @@ const userSchema = new mongoose.Schema({
         required:true,
         minlength: 8,
         trim: true,
+        validate(value){
+            if(value.toLowerCase().includes('password')){
+               throw new Error('Password can not contain "password"') 
+            }
+        }
     },
     email:{
         type:String,
-        uniqe:true,
+        unique:true,
         required:true,
         trim:true,
-        lowcase:true,
+        lowCase:true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error('Email is not valid');
+            }
+        }
     },
     age: {
         type:Number,
@@ -31,5 +42,11 @@ userSchema.virtual('orders',{
     localField:'_id',
     foreignField:'user'
 })
+userSchema.methods.toJSON = function (){
+    const user = this
+    const userObject = user.toObject()
+    delete userObject.password
+    return userObject
+}
 const User = mongoose.model('User',userSchema);
-module.exports={User}
+module.exports=User

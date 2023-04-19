@@ -4,9 +4,9 @@
   "description": "Low Scale Ordering",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "env-cmd -f ./config/dev.env nodemon src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --watch --runInBand"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,13 @@
   "homepage": "https://github.com/berkcansavur/Order#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "mongodb": "^5.2.0",
     "mongoose": "^7.0.3",
+    "validator": "^13.9.0",
+    "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.22"
   }
 }
