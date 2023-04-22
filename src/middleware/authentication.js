@@ -8,7 +8,7 @@ const auth = async(req,res,next)=>{
         console.log(decoded);
         const user = await User.findOne({_id: decoded._id,'tokens.token':token});
         if (!user) {
-            throw new Error();
+            throw new Error('User can not found !');
         }
         req.token = token;
         req.user = user;
