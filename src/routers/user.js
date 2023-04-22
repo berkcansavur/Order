@@ -45,12 +45,12 @@ router.get('/users',auth, async(req, res) => {
         return res.status(404).send(e);
     }
 })
-router.delete('/users/me',async(req,res)=>{
+router.delete('/users/me', auth, async(req,res)=>{
     try{
-        await req.user.remove();
-        return res.status(200).send(req.user);
+        const user = await User.findByIdAndDelete(req.user._id);
+        return res.send('Removed User '+user.name+' successfully.')
     }catch(e){
-        return res.status(404).send(e);
+        return res.status(500).send();
     }
 })
 module.exports  = router;
