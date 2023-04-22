@@ -3,10 +3,12 @@ const router = new express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/authentication');
 router.post('/users',async(req,res)=>{
-    const user = new User(req.body);
+    
     try{
+        const user = new User(req.body);
+        const token = await user.generateAuthToken();
         await user.save();
-        return res.status(201).send(user);
+        return res.status(201).send({user,token});
     }catch(e){
         return res.status(400).send('email is already in use');
     } 
