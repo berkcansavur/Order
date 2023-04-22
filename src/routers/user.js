@@ -13,9 +13,9 @@ router.post('/users',async(req,res)=>{
 router.delete('/users/me',async(req,res)=>{
     try{
         await req.user.remove();
-        res.status(200).send(req.user);
+        return res.status(200).send(req.user);
     }catch(e){
-        res.status(404).send(e);
+        return res.status(404).send(e);
     }
 })
 module.exports  = router;
