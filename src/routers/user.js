@@ -22,6 +22,18 @@ router.post('/users/login', async(req, res) => {
         return res.status(400).send('Cannot Login');
     }
 })
+router.post('/users/logout', auth, async (req,res)=>{
+    try {
+        req.user.tokens = req.user.tokens.filter((token)=>{
+            return token.token !== req.token;
+        })
+        await req.user.save();
+        return res.send('Logged out successfully.')
+        
+    } catch (error) {
+        return res.status(500).send('Cannot logout succesfully.');
+    }
+} )
 router.get('/users/me', auth, async(req, res) => {
     return res.send(req.user);
 })
@@ -32,8 +44,7 @@ router.get('/users',auth, async(req, res) => {
     } catch (e) {
         return res.status(404).send(e);
     }
-}
-)
+})
 router.delete('/users/me',async(req,res)=>{
     try{
         await req.user.remove();
