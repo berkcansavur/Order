@@ -9,9 +9,9 @@ router.post('/orders',async(req,res)=>{
     })
     try{
         await order.save();
-        res.status(201).send(order);
+        return res.status(201).send(order);
     }catch(e){
-        res.status(404).send(e)
+        return res.status(404).send(e)
     }
 })
 router.get('/orders', async(req,res)=>{
@@ -33,9 +33,9 @@ router.get('/orders', async(req,res)=>{
                 sort
             }
         })
-        res.send(req.user.orders)
+        return res.send(req.user.orders)
     }catch(e){
-        res.status(500).send(e);
+        return res.status(500).send(e);
     }
 })
 module.exports= router;
