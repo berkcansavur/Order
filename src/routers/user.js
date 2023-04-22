@@ -25,6 +25,15 @@ router.post('/users/login', async(req, res) => {
 router.get('/users/me', auth, async(req, res) => {
     return res.send(req.user);
 })
+router.get('/users',auth, async(req, res) => {
+    try {
+        const users = await User.find({});
+        return users.send([users])
+    } catch (e) {
+        return res.status(404).send(e);
+    }
+}
+)
 router.delete('/users/me',async(req,res)=>{
     try{
         await req.user.remove();
