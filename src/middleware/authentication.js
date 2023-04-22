@@ -1,4 +1,4 @@
-const User =require('../models/User');
+const User =require('../models/user');
 const jwt = require('jsonwebtoken');
 const auth = async(req,res,next)=>{
     try{
@@ -14,6 +14,7 @@ const auth = async(req,res,next)=>{
         req.user = user;
         next();
     }catch (e) {
-        res.status(401).send({e: 'Unauthorized'});
+        return res.status(401).send({e: 'Unauthorized'});
     }
 }
+module.exports = auth
