@@ -1,24 +1,30 @@
 const express = require('express');
 const router = new express.Router();
+const auth = require('../middleware/authentication');
 const Order = require('../models/order');
+const User = require('../models/user');
 // getting all orders by request
-router.post('/orders',async(req,res)=>{
+router.post('/orders',auth,async(req,res)=>{
     const order = new Order({
         ...req.body,
         user: req.user._id
     })
+    const orderDetails = {
+        user: await User.findById(order.user._id.toString()),
+        details: await order
+    }
     try{
         await order.save();
-        return res.status(201).send(order);
+        return res.status(201).send(orderDetails);
     }catch(e){
         return res.status(404).send(e)
     }
 })
-router.get('/orders', async(req,res)=>{
+router.get('/orders', auth, async(req,res)=>{
     const match = {};
     const sort = {};
-    if(req.query.completed){
-        match.completed = req.query.completed === 'true';
+    if(req.query.status){
+        match.status = req.query.status === 'delivered';
     }
     if(req.query.sortBy){
         const parts =req.query.sortBy.split(':');
@@ -33,7 +39,7 @@ router.get('/orders', async(req,res)=>{
                 sort
             }
         })
-        return res.send(req.user.orders)
+        return res.send(req.user.orders);
     }catch(e){
         return res.status(500).send(e);
     }

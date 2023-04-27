@@ -2,13 +2,12 @@ const express= require('express');
 const router = new express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/authentication');
+const userService = require('../services/user');
+const orderService = require('../services/order');
 router.post('/users',async(req,res)=>{
-    
     try{
-        const user = new User(req.body);
-        const token = await user.generateAuthToken();
-        await user.save();
-        return res.status(201).send({user,token});
+        const user = await userService.createUser(req.body);
+        return res.status(201).send(user);
     }catch(e){
         return res.status(400).send('email is already in use');
     } 
