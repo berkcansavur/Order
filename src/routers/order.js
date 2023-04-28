@@ -3,6 +3,8 @@ const router = new express.Router();
 const auth = require('../middleware/authentication');
 const Order = require('../models/order');
 const User = require('../models/user');
+const orderService = require('../services/order');
+const userService = require('../services/user');
 // getting all orders by request
 router.post('/orders',auth,async(req,res)=>{
     const order = new Order({
@@ -10,7 +12,7 @@ router.post('/orders',auth,async(req,res)=>{
         user: req.user._id
     })
     const orderDetails = {
-        user: await User.findById(order.user._id.toString()),
+        user: await userService.getUserName(req.user._id),
         details: await order
     }
     try{

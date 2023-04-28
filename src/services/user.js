@@ -57,6 +57,14 @@ async function updateUser(userId,updates){
         throw new Error(error);
     }
 }
+async function getUserName(userId){
+    try {
+        const user = await User.findById(userId);
+        return user.email;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 module.exports = {
     createUser,
@@ -64,5 +72,6 @@ module.exports = {
     findUser,
     updateUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getUserName
 };
