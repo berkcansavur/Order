@@ -8,7 +8,7 @@ async function createOrder(order,user){
         });
         await newOrder.save();
         const orderDetails = {
-            user: await userService.getUserName(newOrder.user._id),
+            user: await userService.getUserName(newOrder.user),
             details: newOrder
         }
     return orderDetails;
