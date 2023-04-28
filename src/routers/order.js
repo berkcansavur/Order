@@ -46,4 +46,11 @@ router.get('/orders', auth, async(req,res)=>{
         return res.status(500).send(e);
     }
 })
+router.patch('/orders/update',auth,async(req, res)=>{
+    try {
+        return res.send(await orderService.updateOrder(req.body))
+    } catch (error) {
+        return res.status(500).send(error);   
+    } 
+})
 module.exports= router;

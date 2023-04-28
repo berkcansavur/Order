@@ -16,6 +16,19 @@ async function createOrder(order,user){
         throw new Error(error);
     }
 }
+async function updateOrder(order){
+    try {
+        const updatedOrder = await Order.findByIdAndUpdate(order._id,order,{new:true});
+        const orderDetails = {
+            user: await userService.getUserName(updatedOrder.user._id),
+            details: updatedOrder
+        }
+        return orderDetails;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 module.exports={
-    createOrder
+    createOrder,
+    updateOrder
 }
