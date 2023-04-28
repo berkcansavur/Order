@@ -36,8 +36,23 @@ async function deleteOrder(orderId){
         throw new Error(error);
     }
 }
+async function getPendingOrder(userId){
+    try {
+        
+        const pendingOrder = await Order.find(order=>{
+            return order.user.toString()===userId
+        }).filter(order=>{
+            return order.status=== 'Pending'
+        });
+        await pendingOrder.save();
+        return pendingOrder;
+    } catch (error) {
+        throw new Error('error:'+error);
+    }
+}
 module.exports={
     createOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getPendingOrder
 }
