@@ -20,6 +20,13 @@ router.patch('/orders/update',auth,async(req, res)=>{
         return res.status(500).send(error);   
     } 
 })
+router.delete('/orders/delete',auth,async(req, res)=>{
+    try {
+        return res.send(await orderService.deleteOrder(req.body._id))
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
 router.get('/orders', auth, async(req,res)=>{
     const match = {};
     const sort = {};

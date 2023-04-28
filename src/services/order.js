@@ -28,7 +28,16 @@ async function updateOrder(order){
         throw new Error(error);
     }
 }
+async function deleteOrder(orderId){
+    try {
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+        return ('Order '+deletedOrder._id+' is deleted');
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 module.exports={
     createOrder,
-    updateOrder
+    updateOrder,
+    deleteOrder
 }
