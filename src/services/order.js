@@ -4,16 +4,16 @@ async function createOrder(order,user){
     try {
         const newOrder = new Order({
             ...order,
-            user:user._id
+            user:user
         });
         await newOrder.save();
         const orderDetails = {
-            user: await userService.getUserName(newOrder.user),
+            user: await userService.getUserName(newOrder.user.toString()),
             details: newOrder
         }
-    return orderDetails;
+        return await orderDetails;
     } catch (error) {
-        throw new Error(error);
+        throw new Error('Create order failed: ' + error.message);
     }
 }
 async function updateOrder(order){
@@ -38,7 +38,6 @@ async function deleteOrder(orderId){
 }
 async function getPendingOrder(userId){
     try {
-        
         const orders = await Order.find({user:userId}).lean().exec();
         const pendingOrders = orders.filter((order)=>(order.status==='Pending'));
         

@@ -4,7 +4,20 @@ const Courier = require('../models/courier');
 const auth = async(req,res,next)=>{
     let root=req.path;
     try{
-        
+        if(root.toString().includes('/orders')){
+            const token = req.header('Authorization').replace('Bearer ','');
+            const decoded = jwt.verify(token,process.env.JWT_SECRET);
+            if(!decoded) {
+            throw new Error('token can not verify');
+            }
+            const user = await User.findOne({_id: decoded.userId,'tokens.token':token});
+            if (!user) {
+                throw new Error('User can not found !');
+            }
+                req.token = token;
+                req.user = user;
+            next();
+        }
         if(root.toString().includes('/couriers')){
             const token = req.header('Authorization').replace('Bearer ','');
             const decoded = jwt.verify(token,process.env.JWT_SECRET);
@@ -26,12 +39,12 @@ const auth = async(req,res,next)=>{
             throw new Error('token can not verify');
             }
             const user = await User.findOne({_id: decoded.userId,'tokens.token':token});
-        if (!user) {
-            throw new Error('User can not found !');
-        }
-        req.token = token;
-        req.user = user;
-        next();
+            if (!user) {
+                throw new Error('User can not found !');
+            }
+            req.token = token;
+            req.user = user;
+            next();
         }
     }catch (error) {
         return res.status(401).send({error: 'Unauthorized'});

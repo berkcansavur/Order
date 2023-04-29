@@ -11,14 +11,16 @@ const orderSchema = new mongoose.Schema({
         ref:'User'
     },
     courier:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Courier'
+        type: mongoose.Schema.Types.Object,
+        ref:'Courier',
+        default:'Order has not been assigned to any courier yet.'
     },
     status:{
         type:String,
         required:true,
         default:'Pending'
     }
+
 },{
     timestamps:true
 })
