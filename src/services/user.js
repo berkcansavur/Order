@@ -2,8 +2,9 @@ const User = require('../models/user');
 const Utils =require('../utils/utils');
 async function createUser(req) {
     const user = new User(req);
-    const token = await Utils.generateAuthToken(user._id);
-    await user.save();   
+    await user.save(); 
+    const token = await Utils.generateAuthToken('user',user._id);
+      
     const returnObject = {
         user,
         token
@@ -20,8 +21,8 @@ async function findUser(user){
 }
 async function loginUser(email,password){
     try {
-        const user = await Utils.findByCredentials(email, password);
-        const token =  await Utils.generateAuthToken(user._id);
+        const user = await Utils.findByCredentials('user',email, password);
+        const token =  await Utils.generateAuthToken('user',user._id);
         const loggedUser ={
             user,
             token

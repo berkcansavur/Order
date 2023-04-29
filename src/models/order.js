@@ -10,6 +10,10 @@ const orderSchema = new mongoose.Schema({
         required: true,
         ref:'User'
     },
+    courier:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Courier'
+    },
     status:{
         type:String,
         required:true,
