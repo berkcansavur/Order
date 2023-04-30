@@ -12,7 +12,7 @@ router.post('/orders', auth, async(req,res)=>{
 })
 router.patch('/orders/assignOrder',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.assignOrder(req.body, req.courier));
+        return res.send(await orderService.assignSelectedOrderToLoggedCourier(req.body, req.courier));
     }catch(error) {
         return res.send(error);
     }
