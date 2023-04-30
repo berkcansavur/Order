@@ -19,18 +19,21 @@ const auth = async(req,res,next)=>{
                 req.courier = courier;
                 next();
             }
-            const token = req.header('Authorization').replace('Bearer ','');
-            const decoded = jwt.verify(token,process.env.JWT_SECRET);
-            if(!decoded) {
-            throw new Error('token can not verify');
+            if(!root.toString().includes('orders/')){
+                const token = req.header('Authorization').replace('Bearer ','');
+                const decoded = jwt.verify(token,process.env.JWT_SECRET);
+                if(!decoded) {
+                    throw new Error('token can not verify');
+                }
+                const user = await User.findOne({_id: decoded.userId,'tokens.token':token});
+                if (!user) {
+                    throw new Error('User can not found !');
+                }
+                req.token = token;
+                req.user = user;
+                next();
             }
-            const user = await User.findOne({_id: decoded.userId,'tokens.token':token});
-            if (!user) {
-                throw new Error('User can not found !');
-            }
-            req.token = token;
-            req.user = user;
-            next();
+            
         }
         if(root.toString().includes('/couriers')){
             const token = req.header('Authorization').replace('Bearer ','');
