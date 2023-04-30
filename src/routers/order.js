@@ -3,22 +3,22 @@ const router = new express.Router();
 const auth = require('../middleware/authentication');
 const Order = require('../models/order');
 const User = require('../models/user');
+const orderService = require('../services/order');
+const userService = require('../services/user');
 // getting all orders by request
 router.post('/orders',auth,async(req,res)=>{
-    const order = new Order({
-        ...req.body,
-        user: req.user._id
-    })
-    const orderDetails = {
-        user: await User.findById(order.user._id.toString()),
-        details: await order
-    }
     try{
-        await order.save();
-        return res.status(201).send(orderDetails);
+        return res.status(201).send(await orderService.createOrder(req.body,req.user._id));
     }catch(e){
         return res.status(404).send(e)
     }
+})
+router.patch('/orders/update',auth,async(req, res)=>{
+    try {
+        return res.send(await orderService.updateOrder(req.body))
+    } catch (error) {
+        return res.status(500).send(error);   
+    } 
 })
 router.get('/orders', auth, async(req,res)=>{
     const match = {};
@@ -44,4 +44,5 @@ router.get('/orders', auth, async(req,res)=>{
         return res.status(500).send(e);
     }
 })
+
 module.exports= router;
