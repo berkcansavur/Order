@@ -43,7 +43,16 @@ async function findByCredentials(root,email,password){
         return courier;
     }
 }
+const Status ={
+    PENDING: 'Pending',
+    APPROVED: 'Approved',
+    DENIED: 'Denied',
+    CANCELLED: 'Cancelled',
+    PREPARING: 'Preparing',
+    ONTHEWAY: 'On the way'
+}
 module.exports = {
     generateAuthToken,
-    findByCredentials
+    findByCredentials,
+    Status
 };

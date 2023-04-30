@@ -24,15 +24,5 @@ const orderSchema = new mongoose.Schema({
 },{
     timestamps:true
 })
-const orderStatus = {
-    ACTIVE: 'active',
-    REJECTED: 'rejected',
-    PENDING: 'pending',
-    PREPARING:'preparing',
-    ONTHEWAY:'on the way'
-};
 const Order = mongoose.model('Order', orderSchema)
-module.exports= {
-    Order,
-    orderStatus
-} 
+module.exports= Order; 

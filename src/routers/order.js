@@ -17,6 +17,13 @@ router.patch('/orders/assignOrder',auth,async(req,res)=>{
         return res.send(error);
     }
 });
+router.patch('/orders/updateStatusApproved',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToApproved(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
 router.patch('/orders/update',auth,async(req, res)=>{
     try {
         return res.send(await orderService.updateOrder(req.body));    

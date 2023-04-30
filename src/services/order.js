@@ -1,5 +1,6 @@
 const Order = require('../models/order.js');
 const userService = require('../services/user.js');
+const Utils =require('../utils/utils.js');
 async function createOrder(order,user){
     try {
         const newOrder = new Order({
@@ -11,12 +12,12 @@ async function createOrder(order,user){
             user: await userService.getUserName(newOrder.user.toString()),
             details: newOrder
         }
-        return await orderDetails;
+        return orderDetails;
     } catch (error) {
         throw new Error('Create order failed: ' + error.message);
     }
 }
-async function assignOrder(order,courier){
+async function assignSelectedOrderToLoggedCourier(order,courier){
     try {
         const orderToBeUpdate = await Order.findById(order._id);
         orderToBeUpdate.status = 'Getting Ready';
@@ -27,6 +28,16 @@ async function assignOrder(order,courier){
         throw new Error('Assign order failed: ' + error.message);
     }
 }
+async function updateOrderStatusToApproved(order){
+    try {
+        const orderTobeUpdate = await Order.findById(order);
+        orderTobeUpdate.status = Utils.Status.APPROVED;
+        await orderTobeUpdate.save();
+        return orderTobeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
 async function updateOrder(order){
     try {
         const updatedOrder = await Order.findByIdAndUpdate(order._id,order,{new:true});
@@ -73,5 +84,6 @@ module.exports={
     deleteOrder,
     getPendingOrder,
     getDeliveredOrder,
-    assignOrder
+    assignSelectedOrderToLoggedCourier,
+    updateOrderStatusToApproved
 }

@@ -5,7 +5,7 @@ const auth = async(req,res,next)=>{
     let root=req.path;
     try{
         if(root.toString().includes('/orders')){
-            if(root.toString().includes('/assignOrder')){
+            if(root.toString().includes('/assignOrder')||root.toString().includes('/updateStatusApproved')){
                 const token = req.header('Authorization').replace('Bearer ','');
                 const decoded =jwt.verify(token,process.env.JWT_SECRET);
                 if(!decoded) {
