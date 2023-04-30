@@ -6,10 +6,17 @@ const orderService = require('../services/order');
 router.post('/orders', auth, async(req,res)=>{
     try{
         return res.send(await orderService.createOrder(req.body, req.user._id));
-    }catch(e){
-        return res.status(400).send(e);
+    }catch(error){
+        return res.status(400).send(error);
     }
 })
+router.patch('/orders/assignOrder',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.assignOrder(req.body, req.courier));
+    }catch(error) {
+        return res.send(error);
+    }
+});
 router.patch('/orders/update',auth,async(req, res)=>{
     try {
         return res.send(await orderService.updateOrder(req.body));    

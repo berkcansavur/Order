@@ -16,6 +16,17 @@ async function createOrder(order,user){
         throw new Error('Create order failed: ' + error.message);
     }
 }
+async function assignOrder(order,courier){
+    try {
+        const orderToBeUpdate = await Order.findById(order._id);
+        orderToBeUpdate.status = 'Getting Ready';
+        orderToBeUpdate.courier = courier;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error('Assign order failed: ' + error.message);
+    }
+}
 async function updateOrder(order){
     try {
         const updatedOrder = await Order.findByIdAndUpdate(order._id,order,{new:true});
@@ -61,5 +72,6 @@ module.exports={
     updateOrder,
     deleteOrder,
     getPendingOrder,
-    getDeliveredOrder
+    getDeliveredOrder,
+    assignOrder
 }

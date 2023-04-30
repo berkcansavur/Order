@@ -5,6 +5,20 @@ const auth = async(req,res,next)=>{
     let root=req.path;
     try{
         if(root.toString().includes('/orders')){
+            if(root.toString().includes('/assignOrder')){
+                const token = req.header('Authorization').replace('Bearer ','');
+                const decoded =jwt.verify(token,process.env.JWT_SECRET);
+                if(!decoded) {
+                throw new Error('token can not verify');
+                }
+                const courier = await Courier.findOne({_id: decoded.courierId,'tokens.token':token});
+                if (!courier) {
+                    throw new Error('Courier can not found!');
+                }
+                req.token = token;
+                req.courier = courier;
+                next();
+            }
             const token = req.header('Authorization').replace('Bearer ','');
             const decoded = jwt.verify(token,process.env.JWT_SECRET);
             if(!decoded) {
@@ -14,8 +28,8 @@ const auth = async(req,res,next)=>{
             if (!user) {
                 throw new Error('User can not found !');
             }
-                req.token = token;
-                req.user = user;
+            req.token = token;
+            req.user = user;
             next();
         }
         if(root.toString().includes('/couriers')){
