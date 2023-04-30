@@ -1,4 +1,5 @@
 const User = require('../models/user');
+
 async function createUser(req) {
     const user = new User(req);
     const token = await user.generateAuthToken();
@@ -6,17 +7,19 @@ async function createUser(req) {
     const returnObject = {
         user,
         token
-    }
+    };
     try {
         return returnObject;
     } catch (error) {
         throw new Error(error)
     }
 }
+
 async function findUser(user){
     const returnedUser = await User.findById(user._id);
     return returnedUser;
 }
+
 async function loginUser(email,password){
     try {
         const user = await User.findByCredentials(email, password);
@@ -30,6 +33,7 @@ async function loginUser(email,password){
         throw new Error(error);
     }
 }
+
 async function logoutUser(reqUser,reqToken){
     try {
         reqUser.tokens = reqUser.tokens.filter((token)=>{
@@ -41,6 +45,7 @@ async function logoutUser(reqUser,reqToken){
         throw new Error(error);
     }
 }
+
 async function deleteUser(userId){
     try {
         const user = await User.findByIdAndDelete(userId);
@@ -49,6 +54,7 @@ async function deleteUser(userId){
         throw new Error(error);
     }
 }
+
 async function updateUser(userId,updates){
     try {
         const user = await User.findByIdAndUpdate(userId,updates,{new:true});
@@ -57,6 +63,7 @@ async function updateUser(userId,updates){
         throw new Error(error);
     }
 }
+
 async function getUserName(userId){
     try {
         const user = await User.findById(userId);
