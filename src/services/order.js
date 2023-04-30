@@ -20,7 +20,7 @@ async function createOrder(order,user){
 async function assignSelectedOrderToLoggedCourier(order,courier){
     try {
         const orderToBeUpdate = await Order.findById(order._id);
-        orderToBeUpdate.status = 'Getting Ready';
+        orderToBeUpdate.status = Utils.Status.APPROVED;
         orderToBeUpdate.courier = courier;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
@@ -38,6 +38,56 @@ async function updateOrderStatusToApproved(order){
         throw new Error(error);
     }
 };
+async function updateOrderStatusToDenied(order){
+    try {
+        const orderTobeUpdate = await Order.findById(order);
+        orderTobeUpdate.status = Utils.Status.DENIED;
+        await orderTobeUpdate.save();
+        return orderTobeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToPreparing(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.PREPARING;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToOntheway(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.ONTHEWAY;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToDelivered(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.DELIVERED;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+async function updateOrderStatusToCancelled(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.CANCELLED;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 async function updateOrder(order){
     try {
         const updatedOrder = await Order.findByIdAndUpdate(order._id,order,{new:true});
@@ -85,5 +135,10 @@ module.exports={
     getPendingOrder,
     getDeliveredOrder,
     assignSelectedOrderToLoggedCourier,
-    updateOrderStatusToApproved
+    updateOrderStatusToApproved,
+    updateOrderStatusToDenied,
+    updateOrderStatusToPreparing,
+    updateOrderStatusToOntheway,
+    updateOrderStatusToDelivered,
+    updateOrderStatusToCancelled
 }

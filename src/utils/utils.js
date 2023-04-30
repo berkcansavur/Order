@@ -49,7 +49,8 @@ const Status ={
     DENIED: 'Denied',
     CANCELLED: 'Cancelled',
     PREPARING: 'Preparing',
-    ONTHEWAY: 'On the way'
+    ONTHEWAY: 'On the way',
+    DELIVERED: 'Delivered'
 }
 module.exports = {
     generateAuthToken,

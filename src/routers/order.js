@@ -24,6 +24,41 @@ router.patch('/orders/updateStatusApproved',auth,async(req,res)=>{
         return res.status(500).send(error);
     }
 });
+router.patch('/orders/updateStatusDenied',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToDenied(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+router.patch('/orders/updateStatusPreparing',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToPreparing(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+router.patch('/orders/updateStatusOntheway',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToOntheway(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+router.patch('/orders/updateStatusDelivered',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToDelivered(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+router.patch('/orders/updateStatusCancelled',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToCancelled(req.body));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
 router.patch('/orders/update',auth,async(req, res)=>{
     try {
         return res.send(await orderService.updateOrder(req.body));    
