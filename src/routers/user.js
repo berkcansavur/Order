@@ -26,11 +26,7 @@ router.post('/users/logout', auth, async (req,res)=>{
     }
 });
 router.get('/users/me', auth, async(req, res) => {
-    try{
-        return res.send(await userService.findUser(req.user));
-    }catch(error){
-        return res.status(404).send(error);
-    }
+    return res.send(await userService.findUser(req.user));
 });
 router.get('/users',auth, async(req, res) => {
     try {
