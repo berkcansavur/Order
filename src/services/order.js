@@ -1,17 +1,89 @@
 const Order = require('../models/order.js');
 const userService = require('../services/user.js');
+const Utils =require('../utils/utils.js');
 async function createOrder(order,user){
     try {
         const newOrder = new Order({
             ...order,
-            user:user._id
+            user:user
         });
         await newOrder.save();
         const orderDetails = {
-            user: await userService.getUserName(newOrder.user),
+            user: await userService.getUserName(newOrder.user.toString()),
             details: newOrder
         }
-    return orderDetails;
+        return orderDetails;
+    } catch (error) {
+        throw new Error('Create order failed: ' + error.message);
+    }
+}
+async function assignSelectedOrderToLoggedCourier(order,courier){
+    try {
+        const orderToBeUpdate = await Order.findById(order._id);
+        orderToBeUpdate.status = Utils.Status.APPROVED;
+        orderToBeUpdate.courier = courier;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error('Assign order failed: ' + error.message);
+    }
+}
+async function updateOrderStatusToApproved(order){
+    try {
+        const orderTobeUpdate = await Order.findById(order);
+        orderTobeUpdate.status = Utils.Status.APPROVED;
+        await orderTobeUpdate.save();
+        return orderTobeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToDenied(order){
+    try {
+        const orderTobeUpdate = await Order.findById(order);
+        orderTobeUpdate.status = Utils.Status.DENIED;
+        await orderTobeUpdate.save();
+        return orderTobeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToPreparing(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.PREPARING;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToOntheway(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.ONTHEWAY;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+async function updateOrderStatusToDelivered(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.DELIVERED;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+async function updateOrderStatusToCancelled(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Utils.Status.CANCELLED;
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
     } catch (error) {
         throw new Error(error);
     }
@@ -28,7 +100,45 @@ async function updateOrder(order){
         throw new Error(error);
     }
 }
+async function deleteOrder(orderId){
+    try {
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+        return ('Order '+deletedOrder._id+' is deleted');
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+async function getPendingOrder(userId){
+    try {
+        const orders = await Order.find({user:userId}).lean().exec();
+        const pendingOrders = orders.filter((order)=>(order.status==='Pending'));
+        
+        return pendingOrders;
+        
+    } catch (error) {
+        throw new Error('error:'+error);
+    }
+}
+async function getDeliveredOrder(userId){
+    try {
+        const orders = await Order.find({user:userId});
+        const deliveredOrders = orders.filter((order)=>(order.status==='Delivered'));
+        return deliveredOrders;  
+    } catch (error) {
+        throw new Error('error:'+error);
+    }
+}
 module.exports={
     createOrder,
-    updateOrder
+    updateOrder,
+    deleteOrder,
+    getPendingOrder,
+    getDeliveredOrder,
+    assignSelectedOrderToLoggedCourier,
+    updateOrderStatusToApproved,
+    updateOrderStatusToDenied,
+    updateOrderStatusToPreparing,
+    updateOrderStatusToOntheway,
+    updateOrderStatusToDelivered,
+    updateOrderStatusToCancelled
 }

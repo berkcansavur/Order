@@ -12,12 +12,11 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/index.js",
-            "env":{
-                "PORT": "3000",
-                "MONGODB_URL" : "mongodb://127.0.0.1:27017/order-api",
+            "env" :{
+                "PORT":"3000",
+                "MONGODB_URL": "mongodb://127.0.0.1:27017/order-api",
                 "JWT_SECRET" : "tthisisasecretformyapp"
-                
-            }
+            },
         }
     ]
 }
