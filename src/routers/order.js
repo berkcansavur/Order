@@ -10,51 +10,51 @@ router.post('/orders', auth, async(req,res)=>{
         return res.status(400).send(error);
     }
 })
-router.patch('/orders/assignOrder',auth,async(req,res)=>{
+router.patch('/orders/:orderId/assignOrder',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.assignSelectedOrderToLoggedCourier(req.body, req.courier));
+        return res.send(await orderService.assignSelectedOrderToLoggedCourier(req.params.orderId, req.courier));
     }catch(error) {
         return res.send(error);
     }
 });
-router.patch('/orders/updateStatusApproved',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusApproved',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToApproved(req.body));
+        return res.send(await orderService.updateOrderStatusToApproved(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
 });
-router.patch('/orders/updateStatusDenied',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusDenied',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToDenied(req.body));
+        return res.send(await orderService.updateOrderStatusToDenied(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
 });
-router.patch('/orders/updateStatusPreparing',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusPreparing',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToPreparing(req.body));
+        return res.send(await orderService.updateOrderStatusToPreparing(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
 });
-router.patch('/orders/updateStatusOntheway',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusOntheway',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToOntheway(req.body));
+        return res.send(await orderService.updateOrderStatusToOntheway(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
 });
-router.patch('/orders/updateStatusDelivered',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusDelivered',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToDelivered(req.body));
+        return res.send(await orderService.updateOrderStatusToDelivered(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
 });
-router.patch('/orders/updateStatusCancelled',auth,async(req,res)=>{
+router.patch('/orders/:orderId/updateStatusCancelled',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToCancelled(req.body));
+        return res.send(await orderService.updateOrderStatusToCancelled(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
@@ -66,9 +66,9 @@ router.patch('/orders/update',auth,async(req, res)=>{
         return res.status(500).send(error);   
     } 
 })
-router.delete('/orders/delete',auth,async(req, res)=>{
+router.delete('/orders/:orderId/delete',auth,async(req, res)=>{
     try {
-        return res.send(await orderService.deleteOrder(req.body._id));
+        return res.send(await orderService.deleteOrder(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }

@@ -19,7 +19,7 @@ async function createOrder(order,user){
 }
 async function assignSelectedOrderToLoggedCourier(order,courier){
     try {
-        const orderToBeUpdate = await Order.findById(order._id);
+        const orderToBeUpdate = await Order.findById(order);
         orderToBeUpdate.status= Status.APPROVED;
         orderToBeUpdate.courier = courier;
         await orderToBeUpdate.save();
