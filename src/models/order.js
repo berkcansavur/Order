@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {Status} = require('../utils/constants');
 const orderSchema = new mongoose.Schema({
     product: {
         type: String,
@@ -16,9 +17,9 @@ const orderSchema = new mongoose.Schema({
         default:'Order has not been assigned to any courier yet.'
     },
     status:{
-        type:String,
-        required:true,
-        default:'Pending'
+        type: String,
+        enum: Object.values(Status),
+        default: Status.CREATED
     }
 
 },{

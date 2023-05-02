@@ -1,6 +1,6 @@
 const Order = require('../models/order.js');
 const userService = require('../services/user.js');
-const Utils =require('../utils/utils.js');
+const {Status} = require('../utils/constants.js');
 async function createOrder(order,user){
     try {
         const newOrder = new Order({
@@ -20,7 +20,7 @@ async function createOrder(order,user){
 async function assignSelectedOrderToLoggedCourier(order,courier){
     try {
         const orderToBeUpdate = await Order.findById(order._id);
-        orderToBeUpdate.status = Utils.Status.APPROVED;
+        orderToBeUpdate.status= Status.APPROVED;
         orderToBeUpdate.courier = courier;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
@@ -31,7 +31,7 @@ async function assignSelectedOrderToLoggedCourier(order,courier){
 async function updateOrderStatusToApproved(order){
     try {
         const orderTobeUpdate = await Order.findById(order);
-        orderTobeUpdate.status = Utils.Status.APPROVED;
+        orderTobeUpdate.status=Status.APPROVED;
         await orderTobeUpdate.save();
         return orderTobeUpdate;
     } catch (error) {
@@ -41,7 +41,7 @@ async function updateOrderStatusToApproved(order){
 async function updateOrderStatusToDenied(order){
     try {
         const orderTobeUpdate = await Order.findById(order);
-        orderTobeUpdate.status = Utils.Status.DENIED;
+        orderTobeUpdate.status = Status.DENIED;
         await orderTobeUpdate.save();
         return orderTobeUpdate;
     } catch (error) {
@@ -51,7 +51,7 @@ async function updateOrderStatusToDenied(order){
 async function updateOrderStatusToPreparing(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
-        orderToBeUpdate.status = Utils.Status.PREPARING;
+        orderToBeUpdate.status = Status.PREPARING_STARTED;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
     } catch (error) {
@@ -61,7 +61,7 @@ async function updateOrderStatusToPreparing(order){
 async function updateOrderStatusToOntheway(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
-        orderToBeUpdate.status = Utils.Status.ONTHEWAY;
+        orderToBeUpdate.status = Status.ONTHEWAY;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
     } catch (error) {
@@ -71,7 +71,7 @@ async function updateOrderStatusToOntheway(order){
 async function updateOrderStatusToDelivered(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
-        orderToBeUpdate.status = Utils.Status.DELIVERED;
+        orderToBeUpdate.status = Status.DELIVERED;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
     } catch (error) {
@@ -81,7 +81,7 @@ async function updateOrderStatusToDelivered(order){
 async function updateOrderStatusToCancelled(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
-        orderToBeUpdate.status = Utils.Status.CANCELLED;
+        orderToBeUpdate.status = Status.CANCELLED;
         await orderToBeUpdate.save();
         return orderToBeUpdate;
     } catch (error) {
