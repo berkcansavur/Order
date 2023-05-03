@@ -23,10 +23,7 @@ async function loginUser(email,password){
     try {
         const user = await Utils.findByCredentials('user',email, password);
         const token =  await Utils.generateAuthToken('user',user._id);
-        const loggedUser ={
-            user,
-            token
-        }
+        const loggedUser= await Utils.authenticateLogger('user',token,user);
         return loggedUser;
     } catch (error) {
         throw new Error(error);

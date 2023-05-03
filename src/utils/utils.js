@@ -2,19 +2,27 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const Courier = require('../models/courier');
+async function authenticateLogger(root,token,user){
+    if(root==='courier'){
+        const courierToBeAuthenticated = await Courier.findOne({_id:user._id})
+        courierToBeAuthenticated.tokens = courierToBeAuthenticated.tokens.concat({token:token},{new:true});
+        await courierToBeAuthenticated.save();
+        return courierToBeAuthenticated;
+    }
+    if(root==='user'){
+        const userToBeAuthenticated = await User.findOne({_id:user._id})
+        userToBeAuthenticated.tokens = userToBeAuthenticated.tokens.concat({token:token});
+        await userToBeAuthenticated.save();
+        return userToBeAuthenticated;
+    }
+}
 async function generateAuthToken(root,Id){
     if(root === 'courier'){
-        const courierToBeAuthenticated = await Courier.findOne({_id:Id})
         const token = jwt.sign({courierId: Id },process.env.JWT_SECRET);
-        courierToBeAuthenticated.tokens = courierToBeAuthenticated.tokens.concat({token});
-        await courierToBeAuthenticated.save();
         return token;
     }   
-    if(root === 'user'){
-        const userToBeAuthenticated = await User.findOne({_id:Id}); 
+    if(root === 'user'){ 
         const token = jwt.sign({userId: Id },process.env.JWT_SECRET);
-        userToBeAuthenticated.tokens = userToBeAuthenticated.tokens.concat({token});
-        await userToBeAuthenticated.save();
         return token;
     }
     
@@ -46,4 +54,5 @@ async function findByCredentials(root,email,password){
 module.exports = {
     generateAuthToken,
     findByCredentials,
+    authenticateLogger
 };
