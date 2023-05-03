@@ -5,15 +5,23 @@ const Courier = require('../models/courier');
 async function authenticateLogger(root,token,user){
     if(root==='courier'){
         const courierToBeAuthenticated = await Courier.findOne({_id:user._id})
-        courierToBeAuthenticated.tokens = courierToBeAuthenticated.tokens.concat({token:token},{new:true});
+        courierToBeAuthenticated.tokens = courierToBeAuthenticated.tokens.concat({token});
         await courierToBeAuthenticated.save();
-        return courierToBeAuthenticated;
+        const courierReturnedWithToken = {
+            courier:courierToBeAuthenticated,
+            token:token
+        }
+        return courierReturnedWithToken;
     }
     if(root==='user'){
         const userToBeAuthenticated = await User.findOne({_id:user._id})
-        userToBeAuthenticated.tokens = userToBeAuthenticated.tokens.concat({token:token});
+        userToBeAuthenticated.tokens = userToBeAuthenticated.tokens.concat({token});
         await userToBeAuthenticated.save();
-        return userToBeAuthenticated;
+        const userReturnedWithToken = {
+            user:userToBeAuthenticated,
+            token:token
+        }
+        return userReturnedWithToken;
     }
 }
 async function generateAuthToken(root,Id){

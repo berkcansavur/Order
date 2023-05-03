@@ -19,7 +19,11 @@ async function loginCourier(email,password){
         const courier = await Utils.findByCredentials('courier',email,password);
         const token = await Utils.generateAuthToken('courier',courier._id);
         const loggedCourier = await Utils.authenticateLogger('courier',token,courier);
-        return loggedCourier;
+        const returnCourier = {
+            courier:loggedCourier,
+            token:token
+        }
+        return returnCourier;
     } catch (error) {
         throw new Error(error);
     }    

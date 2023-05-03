@@ -8,7 +8,8 @@ const auth = async(req,res,next)=>{
             if(root.toString().includes('/assignOrder')||
             root.toString().includes('/updateStatusApproved')||
             root.toString().includes('/updateStatusDenied')||
-            root.toString().includes('/updateStatusPreparing')||
+            root.toString().includes('/updateStatusPreparingStarted')||
+            root.toString().includes('/updateStatusPreparingCompleted')||
             root.toString().includes('/updateStatusOntheway')||
             root.toString().includes('/updateStatusDelivered')){
                 const token = req.header('Authorization').replace('Bearer ','');

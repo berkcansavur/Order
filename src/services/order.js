@@ -48,7 +48,7 @@ async function updateOrderStatusToDenied(order){
         throw new Error(error);
     }
 };
-async function updateOrderStatusToPreparing(order){
+async function updateOrderStatusToPreparingStarted(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
         orderToBeUpdate.status = Status.PREPARING_STARTED;
@@ -58,6 +58,17 @@ async function updateOrderStatusToPreparing(order){
         throw new Error(error);
     }
 };
+async function updateOrderStatusToPreparingCompleted(order){
+    try {
+        const orderToBeUpdate = await Order.findById(order);
+        orderToBeUpdate.status = Status.PREPARING_COMPLETED
+        await orderToBeUpdate.save();
+        return orderToBeUpdate;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 async function updateOrderStatusToOntheway(order){
     try {
         const orderToBeUpdate = await Order.findById(order);
@@ -137,7 +148,8 @@ module.exports={
     assignSelectedOrderToLoggedCourier,
     updateOrderStatusToApproved,
     updateOrderStatusToDenied,
-    updateOrderStatusToPreparing,
+    updateOrderStatusToPreparingStarted,
+    updateOrderStatusToPreparingCompleted,
     updateOrderStatusToOntheway,
     updateOrderStatusToDelivered,
     updateOrderStatusToCancelled

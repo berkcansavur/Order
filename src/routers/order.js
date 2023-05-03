@@ -33,7 +33,14 @@ router.patch('/orders/:orderId/updateStatusDenied',auth,async(req,res)=>{
 });
 router.patch('/orders/:orderId/updateStatusPreparing',auth,async(req,res)=>{
     try {
-        return res.send(await orderService.updateOrderStatusToPreparing(req.params.orderId));
+        return res.send(await orderService.updateOrderStatusToPreparingStarted(req.params.orderId));
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+router.patch('/orders/:orderId/updateStatusPreparing',auth,async(req,res)=>{
+    try {
+        return res.send(await orderService.updateOrderStatusToPreparingCompleted(req.params.orderId));
     } catch (error) {
         return res.status(500).send(error);
     }
