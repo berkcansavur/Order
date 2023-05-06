@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const Courier = require('../models/courier');
 async function authenticateLogger(root,token,user){
