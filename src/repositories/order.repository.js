@@ -18,14 +18,22 @@ class OrderRepository{
         const orders = await this.Order.find();
         return orders;
     }
-    async deleteOrder(id){
-        const order = await this.Order.findById(id);
-        await order.remove();
-        return order;
+    async deleteOrderById(id){
+        try {
+            const order = await this.Order.findById(id);
+            await order.remove();
+            return order;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
     async updateOrderById(id,order){
-        const updatedOrder = await this.Order.findByIdAndUpdate(id,order,{new:true});
-        return updatedOrder;
+        try {
+            const updatedOrder = await this.Order.findByIdAndUpdate(id,order,{new:true});
+            return updatedOrder;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 module.exports = OrderRepository;

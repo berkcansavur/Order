@@ -1,17 +1,29 @@
 const User = require('../models/user.model');
-async function createUser(req) {
-    const user = new User(req);
-    const token = await user.generateAuthToken();
-    await user.save();   
-    const returnObject = {
-        user,
-        token
+const Utils = require('../utils/utils');
+class UserService{
+    constructor(userRepository){
+            this.userRepository = userRepository;
+        }
+    async createUser(user){
+        try {
+            const newUser = await this.userRepository.createUser(user);
+            const token = await Utils.generateAuthToken('user',newUser._id);
+            const authenticatedUser = await Utils.authenticateLogger('user',token,newUser);
+            await authenticatedUser.save();
+            return authenticatedUser;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
-    try {
-        return returnObject;
-    } catch (error) {
-        throw new Error(error)
+    async finUserById(id){
+        return this.userRepository.finUserById(id);
     }
+    async finUserByEmail(email){
+        return this.userRepository.finUserByEmail(email);
+    }
+    async updateUser(user){
+            return this.userRepository.updateUser(user);
+        }
 }
 async function findUser(user){
     const returnedUser = await User.findById(user._id);
