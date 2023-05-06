@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
-const Courier = require('../models/courier');
+const Courier = require('../models/courier.model');
 async function authenticateLogger(root,token,user){
     if(root==='courier'){
         const courierToBeAuthenticated = await Courier.findOne({_id:user._id})

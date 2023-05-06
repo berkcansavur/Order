@@ -1,6 +1,6 @@
-const User =require('../models/user');
+const User =require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const Courier = require('../models/courier');
+const Courier = require('../models/courier.model');
 const auth = async(req,res,next)=>{
     let root=req.path;
     try{

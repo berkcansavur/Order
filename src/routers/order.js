@@ -1,8 +1,6 @@
 const express = require('express');
 const router = new express.Router();
 const auth = require('../middleware/authentication');
-const Order = require('../models/order.model');
-const User = require('../models/user.model');
 const orderService = require('../services/order.service');
 const userService = require('../services/user.service');
 // getting all orders by request

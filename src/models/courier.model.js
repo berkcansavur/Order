@@ -53,12 +53,26 @@ const courierSchema = new mongoose.Schema({
     }]
 },{
     timestamps:true
-})
-userSchema.virtual('orders',{
+});
+courierSchema.virtual('orders',{
     ref:'Order',
     localField:'_id',
     foreignField:'courier'
-})
+});
+courierSchema.methods.toJSON = function(){
+    const courier = this;
+    const courierObject = courier.toObject();
+    delete courierObject.password;
+    delete courierObject.tokens;
+    return courierObject;
+}
+courierSchema.pre('save', async function(next){
+    const courier = this;
+    if(courier.isModified('password')){
+            courier.password = await bcrypt.hash(courier.password, 8);
+        }
+        next();
+});
 const Courier = mongoose.model('Courier',courierSchema);
 function validateCourier(courier){
     const schema = Joi.object({
@@ -67,7 +81,6 @@ function validateCourier(courier){
         password:Joi.string().required().min(8),
         age:Joi.number().default(0),
         phone:Joi.number().default(0)
-
     });
     return schema.validate(courier);
 }
