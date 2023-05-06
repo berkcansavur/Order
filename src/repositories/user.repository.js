@@ -81,8 +81,20 @@ class UserRepository{
             await user.remove();
             return user;
         } catch (error) {
-            throw new Error(error);
+            throw new Error('Users token could not be removed.');
         }
+    }
+    async removeUsersToken(user,token){
+        try {
+                user.tokens = user.tokens.filter((tokens)=>{
+                return tokens.token!== token;
+                });
+                await user.save();
+                return user;
+            } 
+            catch (error) {
+                return ('Users token could not be removed.')
+            }
     }
 }
 module.exports = UserRepository;

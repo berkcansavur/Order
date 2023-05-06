@@ -1,5 +1,3 @@
-const e = require('express');
-const User = require('../models/user.model');
 const Utils = require('../utils/utils');
 class UserService{
     constructor(userRepository){
@@ -83,6 +81,17 @@ class UserService{
             throw new Error(error);
         }
     }
+    async logoutUser(user,token){
+        try {
+            const loggedOutUser = await this.userRepository.removeUsersToken(user,token);
+            if(!loggedOutUser){
+                return ('User could not be remover');
+            }
+            return ('user '+loggedOutUser.email+' has been logged out');
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
 async function logoutUser(reqUser,reqToken){
     try {
@@ -95,37 +104,4 @@ async function logoutUser(reqUser,reqToken){
         throw new Error(error);
     }
 }
-async function deleteUser(userId){
-    try {
-        const user = await User.findByIdAndDelete(userId);
-        return ('Removed User '+user.email+' successfully.');
-    } catch (error) {
-        throw new Error(error);
-    }
-}
-async function updateUser(userId,updates){
-    try {
-        const user = await User.findByIdAndUpdate(userId,updates,{new:true});
-        return ('Updated User '+user.email+' successfully.');
-    } catch (error) {
-        throw new Error(error);
-    }
-}
-async function getUserName(userId){
-    try {
-        const user = await User.findById(userId);
-        return user.email;
-    } catch (error) {
-        throw new Error(error);
-    }
-}
-
-module.exports = {
-    createUser,
-    deleteUser,
-    findUser,
-    updateUser,
-    loginUser,
-    logoutUser,
-    getUserName
-};
+module.exports = UserService;

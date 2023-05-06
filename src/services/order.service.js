@@ -1,4 +1,3 @@
-const Order = require('../models/order.model.js');
 const UserService = require('./user.service.js');
 class OrderService{
     constructor({orderRepository}){
@@ -8,7 +7,7 @@ class OrderService{
         try {
             const newOrder = await this.orderRepository.createOrder(order,user);
             const orderDetails = {
-                user: await UserService.getUserName(user._id),
+                user: await UserService.getUserNameById(user._id),
                 details: newOrder
             }
         return orderDetails;
