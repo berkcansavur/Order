@@ -21,6 +21,14 @@ class UserRepository{
             throw new Error(error);
         }
     }
+    async getAllUsers(){
+        try {
+            const users = await this.User.find();
+            return users;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
     async getUserNameById(id){
         try {
             const user = await this.User.findById(id);
@@ -33,14 +41,6 @@ class UserRepository{
         try {
             const user = await this.User.findById(id);
             return user.email;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-    async getAllUsers(){
-        try {
-            const users = await this.User.find();
-            return users;
         } catch (error) {
             throw new Error(error);
         }

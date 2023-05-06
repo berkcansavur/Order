@@ -1,3 +1,4 @@
+const e = require('express');
 const User = require('../models/user.model');
 const Utils = require('../utils/utils');
 class UserService{
@@ -7,6 +8,7 @@ class UserService{
     async createUser(user){
         try {
             const newUser = await this.userRepository.createUser(user);
+            await newUser.save();
             const token = await Utils.generateAuthToken('user',newUser._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,newUser);
             await authenticatedUser.save();
@@ -15,31 +17,71 @@ class UserService{
             throw new Error(error);
         }
     }
-    async finUserById(id){
-        return this.userRepository.finUserById(id);
-    }
-    async finUserByEmail(email){
-        return this.userRepository.finUserByEmail(email);
-    }
-    async updateUser(user){
-            return this.userRepository.updateUser(user);
+    async getUserNameById(id){
+        try {
+            return await this.userRepository.getUserNameById(id);
+        } catch (error) {
+            throw new Error(error);
         }
-}
-async function findUser(user){
-    const returnedUser = await User.findById(user._id);
-    return returnedUser;
-}
-async function loginUser(email,password){
-    try {
-        const user = await User.findByCredentials(email, password);
-        const token = await user.generateAuthToken();
-        const loggedUser ={
-            user,
-            token
+    }
+    async getUserEmailById(id){
+        try {
+            return await this.userRepository.getUserEmailById(id);
+        } catch (error) {
+            throw new Error(error);
         }
-        return loggedUser;
-    } catch (error) {
-        throw new Error(error);
+    }
+    async getAllUsers(){
+        try {
+            return await this.userRepository.getAllUsers();
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async updateUserNameById(id,name){
+        try {
+            const user = await this.userRepository.getUserNameById(id);
+            user.name = name;
+            await user.save();
+            return user;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async updateUserEmailById(id,email){
+        try {
+            const user = await this.userRepository.getUserEmailById(id);
+            user.email = email;
+            await user.save();
+            return user;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async deleteUserById(id){
+        try {
+            return await this.deleteUserById(id);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async updateUserPasswordById(id,password){
+        try {
+            return await this.userRepository.updateUserPasswordById(id,password);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async loginUser(email,password){
+        try {
+            const user = await Utils.findByCredentials('user',email,password);
+            const token = await Utils.generateAuthToken('user',user._id);
+            const authenticatedUser = await Utils.authenticateLogger('user',token,user);
+            await authenticatedUser.save();
+            return authenticatedUser ;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 async function logoutUser(reqUser,reqToken){
