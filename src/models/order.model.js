@@ -24,9 +24,9 @@ const orderSchema = new mongoose.Schema({
         ref :'Courier'
     },
     status:{
-        type:String,
-        required:true,
-        default:'Pending'
+        type: String,
+        enum: Object.values(Status),
+        default: Status.CREATED
     }
 },{
     timestamps:true
