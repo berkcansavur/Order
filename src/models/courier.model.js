@@ -41,6 +41,10 @@ const courierSchema = new mongoose.Schema({
             }
         }
     },
+    phone:{
+        type:Number,
+        default:0
+    },
     tokens:[{
         token:{
             type:String,
@@ -61,7 +65,8 @@ function validateCourier(courier){
         courierName: Joi.string().required(),
         email:Joi.string().required().email(),
         password:Joi.string().required().min(8),
-        age:Joi.number().default(0)
+        age:Joi.number().default(0),
+        phone:Joi.number().default(0)
 
     });
     return schema.validate(courier);

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const orderSchema = new mongoose.Schema({
     customerName: {
-        type: mongoose.Schema.Types.Object,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref:'User'
     },
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     courier:{
-        type : mongoose.Schema.Types.Object,
+        type : mongoose.Schema.Types.ObjectId,
         ref :'Courier'
     },
     status:{
