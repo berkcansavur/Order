@@ -1,9 +1,9 @@
 const express= require('express');
 const router = new express.Router();
-const User = require('../models/user');
+const User = require('../models/user.model');
 const auth = require('../middleware/authentication');
-const userService = require('../services/user');
-const orderService = require('../services/order');
+const userService = require('../services/user.service');
+const orderService = require('../services/order.service');
 router.post('/users',async(req,res)=>{
     try{
         return res.status(201).send(await userService.createUser(req.body));
