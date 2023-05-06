@@ -1,23 +1,11 @@
 const User = require('../models/user');
 const Utils =require('../utils/utils');
+const UserRepository = require('../repositories/UserRepository');
 async function createUser(req) {
-    const user = new User(req);
-    await user.save(); 
-    const token = await Utils.generateAuthToken('user',user._id);
-      
-    const returnObject = {
-        user,
-        token
-    }
-    try {
-        return returnObject;
-    } catch (error) {
-        throw new Error(error)
-    }
+    return await UserRepository.createUser(req);
 }
-async function findUser(user){
-    const returnedUser = await User.findById(user._id);
-    return returnedUser;
+async function findUserById(user){
+    return await UserRepository.findUserById(user);
 }
 async function loginUser(email,password){
     try {
@@ -31,26 +19,25 @@ async function loginUser(email,password){
 }
 async function logoutUser(reqUser,reqToken){
     try {
-        reqUser.tokens = reqUser.tokens.filter((token)=>{
-            return token.token !== reqToken;
-        })
-        await reqUser.save();
-        return ('user '+reqUser.email+' has been logged out');
+        const user = await UserRepository.removeUsersToken(reqUser,reqToken);
+        if(!user){
+            return ('User could not found');
+        }
+        return ('user '+user.email+' has been logged out');
     } catch (error) {
         throw new Error(error);
     }
 }
 async function deleteUser(userId){
     try {
-        const user = await User.findByIdAndDelete(userId);
-        return ('Removed User '+user.email+' successfully.');
+        return await UserRepository.deleteUserById(userId);
     } catch (error) {
         throw new Error(error);
     }
 }
-async function updateUser(userId,updates){
+async function updateUserById(userId,updates){
     try {
-        const user = await User.findByIdAndUpdate(userId,updates,{new:true});
+        const user = await UserRepository.updateUserById(userId,updates);
         return ('Updated User '+user.email+' successfully.');
     } catch (error) {
         throw new Error(error);
@@ -68,8 +55,8 @@ async function getUserName(userId){
 module.exports = {
     createUser,
     deleteUser,
-    findUser,
-    updateUser,
+    findUserById,
+    updateUserById,
     loginUser,
     logoutUser,
     getUserName

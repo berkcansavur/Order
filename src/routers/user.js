@@ -3,17 +3,18 @@ const router = new express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/authentication');
 const userService = require('../services/user');
-const orderService = require('../services/order');
 router.post('/users',async(req,res)=>{
+    const {name,email,password}=req.body;
     try{
-        return res.status(201).send(await userService.createUser(req.body));
+        return res.status(201).send(await userService.createUser({name,email,password}));
     }catch(e){
         return res.status(400).send('email is already in use');
     } 
 });
 router.post('/users/login', async(req, res) => {
+    const {email,password}=req.body;
     try {
-        return res.send(await userService.loginUser(req.body.email,req.body.password));
+        return res.send(await userService.loginUser(email,password));
     } catch (e) {
         return res.status(400).send('Cannot Login');
     }
@@ -32,17 +33,9 @@ router.get('/users/me', auth, async(req, res) => {
         return res.status(404).send(error);
     }
 });
-router.get('/users',auth, async(req, res) => {
-    try {
-        const users = await User.find({});
-        return users.send([users])
-    } catch (e) {
-        return res.status(404).send(e);
-    }
-});
-router.delete('/users/me', auth, async(req,res)=>{
+router. delete('/users/me', auth, async(req,res)=>{
     try{
-        return res.send(await userService.deleteUser(req.user._id));
+        return res.send(await userService.deleteUser(req.user._id.toString()));
     }catch(e){
         return res.status(500).send();
     }
