@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const Status = require('../utils/constants');
 const orderSchema = new mongoose.Schema({
     customerName: {
         type: mongoose.Schema.Types.ObjectId,
