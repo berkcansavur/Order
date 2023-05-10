@@ -1,44 +1,61 @@
 const Utils = require('../utils/utils');
 class UserService{
-    constructor(userRepository){
-            this.userRepository = userRepository;
-        }
+    constructor({UserRepository}){
+        this.UserRepository = UserRepository;
+        this.createUser = this.createUser.bind(this);
+        this.getUserById = this.getUserById.bind(this);
+        this.getUserNameById = this.getUserNameById.bind(this);
+        this.getUserEmailById = this.getUserEmailById.bind(this);
+        this.getAllUsers = this.getAllUsers.bind(this);
+        this.updateUserNameById = this.updateUserNameById.bind(this);
+        this.updateUserEmailById = this.updateUserEmailById.bind(this);
+        this.updateUserPasswordById = this.updateUserPasswordById.bind(this);
+        this.deleteUserById = this.deleteUserById.bind(this);
+        this.loginUser = this.loginUser.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
+    }
     async createUser(user){
         try {
-            const newUser = await this.userRepository.createUser(user);
-            await newUser.save();
+            const newUser = await this.UserRepository.createUser(user);
             const token = await Utils.generateAuthToken('user',newUser._id);
-            const authenticatedUser = await Utils.authenticateLogger('user',token,newUser);
-            await authenticatedUser.save();
+            const createdUser = await this.UserRepository.getUserById(newUser._id);
+            const authenticatedUser = await Utils.authenticateLogger('user',token,createdUser);
             return authenticatedUser;
         } catch (error) {
             throw new Error(error);
         }
     }
+    async getUserById(id){
+        try {
+            return await this.UserRepository.getUserById(id);
+        } catch (error) {
+            
+        }
+    }
     async getUserNameById(id){
         try {
-            return await this.userRepository.getUserNameById(id);
+            return await this.UserRepository.getUserNameById(id);
         } catch (error) {
             throw new Error(error);
         }
     }
     async getUserEmailById(id){
         try {
-            return await this.userRepository.getUserEmailById(id);
+            return await this.UserRepository.getUserEmailById(id);
         } catch (error) {
             throw new Error(error);
         }
     }
     async getAllUsers(){
         try {
-            return await this.userRepository.getAllUsers();
+            return await this.UserRepository.getAllUsers();
         } catch (error) {
             throw new Error(error);
         }
     }
     async updateUserNameById(id,name){
         try {
-            const user = await this.userRepository.getUserNameById(id);
+            const user = await this.UserRepository.getUserNameById(id);
             user.name = name;
             await user.save();
             return user;
@@ -48,7 +65,7 @@ class UserService{
     }
     async updateUserEmailById(id,email){
         try {
-            const user = await this.userRepository.getUserEmailById(id);
+            const user = await this.UserRepository.getUserEmailById(id);
             user.email = email;
             await user.save();
             return user;
@@ -58,14 +75,14 @@ class UserService{
     }
     async deleteUserById(id){
         try {
-            return await this.deleteUserById(id);
+            return await this.UserRepository.deleteUserById(id);
         } catch (error) {
             throw new Error(error);
         }
     }
     async updateUserPasswordById(id,password){
         try {
-            return await this.userRepository.updateUserPasswordById(id,password);
+            return await this.UserRepository.updateUserPasswordById(id,password);
         } catch (error) {
             throw new Error(error);
         }
@@ -83,7 +100,7 @@ class UserService{
     }
     async logoutUser(user,token){
         try {
-            const loggedOutUser = await this.userRepository.removeUsersToken(user,token);
+            const loggedOutUser = await this.UserRepository.removeUsersToken(user,token);
             if(!loggedOutUser){
                 return ('User could not be remover');
             }
@@ -91,17 +108,6 @@ class UserService{
         } catch (error) {
             throw new Error(error);
         }
-    }
-}
-async function logoutUser(reqUser,reqToken){
-    try {
-        reqUser.tokens = reqUser.tokens.filter((token)=>{
-            return token.token !== reqToken;
-        })
-        await reqUser.save();
-        return ('user '+reqUser.email+' has been logged out');
-    } catch (error) {
-        throw new Error(error);
     }
 }
 module.exports = UserService;

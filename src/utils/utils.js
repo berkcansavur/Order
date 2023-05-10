@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const {User} = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const Courier = require('../models/courier.model');
 async function authenticateLogger(root,token,user){
@@ -14,14 +14,17 @@ async function authenticateLogger(root,token,user){
         return courierReturnedWithToken;
     }
     if(root==='user'){
-        const userToBeAuthenticated = await User.findOne({_id:user._id})
-        userToBeAuthenticated.tokens = userToBeAuthenticated.tokens.concat({token});
-        await userToBeAuthenticated.save();
-        const userReturnedWithToken = {
-            user:userToBeAuthenticated,
-            token:token
-        }
-        return userReturnedWithToken;
+            const userToBeAuthenticated = await User.findById(user._id);
+            const tokens = userToBeAuthenticated.tokens.slice();
+            tokens.push({token});
+            userToBeAuthenticated.tokens = tokens;
+            await userToBeAuthenticated.save();
+            const responseUser={
+                name: userToBeAuthenticated.name,
+                email: userToBeAuthenticated.email
+            }
+            return responseUser;
+        
     }
 }
 async function generateAuthToken(root,Id){

@@ -1,16 +1,17 @@
-const createOrder = async (req, dependencies) => {
-    const { customerName, productName, quantity, price } = req;
+class OrderController{
+  constructor({OrderService}){
+    this.OrderService = OrderService;
+    this.createOrder = this.createOrder.bind(this);
+}
+  async createOrder(req, res){
+    try{
+      const order = await this.OrderService.createOrder(req.body);
+      return res.status(201).json(order);
+  }catch(e){
+      return res.status(404).send(e)
+  }
+};
+}
   
-    return dependencies.orderService.createOrder({
-      customerName,
-      product,
-      quantity,
-      price,
-      courier,
-      Order: dependencies.Order,
-      orderRepository: dependencies.orderRepository,
-    });
-  };
-  
-  module.exports = { createOrder };
+  module.exports =  OrderController ;
   

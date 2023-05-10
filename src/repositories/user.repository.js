@@ -1,7 +1,18 @@
+const mongoose = require('mongoose');
 class UserRepository{
-    constructor({User}){
-        this.User = User;
-    }
+    constructor({UserSchema}){
+        this.User = mongoose.model('User',UserSchema);
+        this.createUser = this.createUser.bind(this);
+        this.getUserById = this.getUserById.bind(this);
+        this.deleteUserById = this.deleteUserById.bind(this);
+        this.getAllUsers = this.getAllUsers.bind(this);
+        this.getUserNameById = this.getUserNameById.bind(this);
+        this.getUserEmailById = this.getUserEmailById.bind(this);
+        this.updateUserEmailById = this.updateUserEmailById.bind(this);
+        this.updateUserNameById = this.updateUserNameById.bind(this);
+        this.updateUserPasswordById = this.updateUserPasswordById.bind(this);
+        this.removeUsersToken = this.removeUsersToken.bind(this);
+    }   
     async createUser(user){
         try {
             const newUser = await this.User({
@@ -15,7 +26,7 @@ class UserRepository{
     }
     async getUserById(id){
         try {
-            const user = await this.User.findById(id);
+            const user = await this.User.findById(id.toString());
             return user;
         } catch (error) {
             throw new Error(error);

@@ -1,19 +1,30 @@
 const express = require('express');
 const router = new express.Router();
-const auth = require('../middleware/authentication');
-const orderService = require('../services/order.service');
-const userService = require('../services/user.service');
-// getting all orders by request
+const{createOrder}= require('../controllers/order.controller');
+const auth = require('../middlewares/authentication.middleware');
+const OrderService = require('../services/order.service');
+const Joi =require('joi');
+
+const validateCreateOrderSchema= Joi.object({
+    customerName:Joi.string().required(),
+    product:Joi.string().required(),
+    quantity:Joi.number().required()
+})
+
+
+// routes
 router.post('/orders',auth,async(req,res)=>{
     try{
-        return res.status(201).send(await orderService.createOrder(req.body,req.user._id));
+        const { customerName,product, quantity } = validateCreateOrderSchema.validate(req.body);
+        const order = await createOrder({ customerName,product, quantity });
+        return res.status(201).json(order);
     }catch(e){
         return res.status(404).send(e)
     }
 })
 router.patch('/orders/update',auth,async(req, res)=>{
     try {
-        return res.send(await orderService.updateOrder(req.body))
+        return res.send(await OrderService.updateOrder(req.body))
     } catch (error) {
         return res.status(500).send(error);   
     } 

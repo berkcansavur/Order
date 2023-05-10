@@ -2,7 +2,6 @@ const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Joi = require('joi');
-const jwt = require('jsonwebtoken');
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -79,4 +78,4 @@ function validateUser(user) {
     });
     return schema.validate(user);
 }
-module.exports = {User,validateUser}
+module.exports = {User,validateUser,userSchema};
