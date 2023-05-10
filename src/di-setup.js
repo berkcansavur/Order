@@ -14,7 +14,7 @@ const OrderController = require('./controllers/order.controller');
 const {CourierSchema} = require('./models/courier.model');
 const CourierRepository = require('./repositories/courier.repository');
 const CourierService = require('./services/courier.service');
-const CourierController = require('/controllers/courier.controller');
+const CourierController = require('./controllers/courier.controller');
 
 
 const container = awilix.createContainer();

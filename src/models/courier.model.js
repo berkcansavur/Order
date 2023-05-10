@@ -1,7 +1,6 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const courierSchema = new mongoose.Schema({
     courierName:{
@@ -84,4 +83,4 @@ function validateCourier(courier){
     });
     return schema.validate(courier);
 }
-module.exports = {Courier,validateCourier}
+module.exports = {Courier,validateCourier,courierSchema}

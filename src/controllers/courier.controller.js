@@ -1,6 +1,9 @@
 class CourierController{
-    constructor(CourierService){
+    constructor({CourierService}){
         this.CourierService = CourierService;
+        this.createCourier = this.createCourier.bind(this);
+        this.loginCourier = this.loginCourier.bind(this);
+        this.logoutCourier= this.logoutCourier.bind(this);
     }
     async createCourier(req,res){
         try {
