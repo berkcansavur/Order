@@ -13,6 +13,7 @@ class UserService{
         this.deleteUserById = this.deleteUserById.bind(this);
         this.loginUser = this.loginUser.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
+        this.updateUserById = this.updateUserById.bind(this);
     }
     async createUser(user){
         try {
@@ -101,11 +102,31 @@ class UserService{
         try {
             const loggedOutUser = await this.UserRepository.removeUsersToken(user,token);
             if(!loggedOutUser){
-                return ('User could not be remover');
+                return ('User could not be removed');
             }
             return ('user '+loggedOutUser.email+' has been logged out');
         } catch (error) {
             throw new Error(error);
+        }
+    }
+    async updateUserById(id,updates){
+        try {
+            const user = await this.UserRepository.getUserById(id);
+            if(updates.name){
+                const user = await this.UserRepository.updateUserNameById(id,updates.name);
+                await user.save();
+            }
+            if(updates.password){
+                const user = await this.UserRepository.updateUserPasswordById(id,updates.password);
+                await user.save();
+            }
+            if(updates.email){
+                const user = await this.UserRepository.updateUserEmailById(id,updates.email);
+                await user.save();
+            }
+            return user;
+        } catch (error) {
+            throw new Error('User could not updated');
         }
     }
 }

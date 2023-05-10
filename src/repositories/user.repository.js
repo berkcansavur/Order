@@ -12,6 +12,7 @@ class UserRepository{
         this.updateUserNameById = this.updateUserNameById.bind(this);
         this.updateUserPasswordById = this.updateUserPasswordById.bind(this);
         this.removeUsersToken = this.removeUsersToken.bind(this);
+        this.updateUserById = this.updateUserById.bind(this);
     }   
     async createUser(user){
         try {
@@ -20,6 +21,15 @@ class UserRepository{
             });
             await newUser.save();
             return newUser;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async updateUserById(id,updates){
+        try {
+            const updatedUser = await this.User.findByIdAndUpdate(id,updates);
+            await updatedUser.save();
+            return updatedUser;
         } catch (error) {
             throw new Error(error);
         }
