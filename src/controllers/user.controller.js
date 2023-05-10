@@ -26,8 +26,8 @@ class UserController{
     }
     async logoutUser(req,res){
         try {
-            const loggedOutUser = await this.UserService.logoutUser(req.user,req.token);
-            return res.send(loggedOutUser);
+            const loggedoutUser = await this.UserService.logoutUser(req.user,req.token);
+            return res.send(loggedoutUser);
         } catch (error) {
             return res.status(404).send(error.message);
         }

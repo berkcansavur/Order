@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const Courier = require('../models/courier.model');
 const {container} = require('../di-setup');
 const UserRepository = container.resolve('UserRepository');
+const CourierRepository = container.resolve('CourierRepository');
 const auth = async(req,res,next)=>{
     let root=req.path;
     try{
@@ -63,13 +64,22 @@ const auth = async(req,res,next)=>{
             if(!decoded) {
             throw new Error('token can not verify');
             }
-            const courier = await Courier.findOne({_id:decoded.courierId,'tokens.token':token});
+            const courier = await CourierRepository.getCourierById(decoded.courierId);
+            const findedCourier = await courier.tokens.filter((tokens)=>{
+                return tokens.token ==token
+            });
             if (!courier) {
-                throw new Error('courier can not found!');
+                throw new Error('Courier has not found!');
             }
-            req.token = token;
-            req.courier = courier;
-            next();
+            if(findedCourier.length!==0){
+                req.token = token;
+                req.courier = courier;
+                next();
+            }
+            if(findedCourier.length===0){
+                throw new Error('Couriers token has not found')
+            }
+            
         }
         if(root.toString().includes('/users')){
             const token = req.header('Authorization').replace('Bearer ','');
@@ -82,7 +92,7 @@ const auth = async(req,res,next)=>{
                 return tokens.token == token
             })
             if (!user) {
-                throw new Error('User can not found !');
+                throw new Error('User has not found !');
             }
             if(findedUser.length!==0){
                 req.token = token;
@@ -90,7 +100,7 @@ const auth = async(req,res,next)=>{
                 next();
             }
             if(findedUser.length===0){
-                throw new Error('Users token can not be found');
+                throw new Error('Users token has not found');
             }
             
             

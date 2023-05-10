@@ -4,14 +4,18 @@ const bcrypt = require('bcryptjs');
 const Courier = require('../models/courier.model');
 async function authenticateLogger(root,token,user){
     if(root==='courier'){
-        const courierToBeAuthenticated = await Courier.findOne({_id:user._id})
-        courierToBeAuthenticated.tokens = courierToBeAuthenticated.tokens.concat({token});
+        const courierToBeAuthenticated = await Courier.findById(courier._id)
+        const tokens = courierToBeAuthenticated.tokens.slice();
+        tokens.push({token});
+        courierToBeAuthenticated.tokens = tokens;
         await courierToBeAuthenticated.save();
-        const courierReturnedWithToken = {
-            courier:courierToBeAuthenticated,
+        const responseCourier = {
+            courierName:courierToBeAuthenticated.name,
+            email:courierToBeAuthenticated.email,
+            phone:courierToBeAuthenticated.phone,
             token:token
         }
-        return courierReturnedWithToken;
+        return responseCourier;
     }
     if(root==='user'){
             const userToBeAuthenticated = await User.findById(user._id);

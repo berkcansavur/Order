@@ -4,7 +4,6 @@ const {validateRequest} = require('../middlewares/validation.middleware');
 const {validateCreateUserSchema} = require('../validations/user.validation');
 const {container} = require('../di-setup');
 const userController = container.resolve('UserController');
-const User = require('../models/user.model');
 const auth = require('../middlewares/authentication.middleware');
 //ROUTERS
 router.post('/users',validateRequest(validateCreateUserSchema),userController.createUser);
