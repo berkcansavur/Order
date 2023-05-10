@@ -97,8 +97,8 @@ class UserRepository{
     }
     async removeUsersToken(user,token){
         try {
-                user.tokens = user.tokens.filter((tokens)=>{
-                return tokens.token!== token;
+                user.tokens = user.tokens.filter((Tokens)=>{
+                return Tokens.token !== token
                 });
                 await user.save();
                 return user;

@@ -92,7 +92,6 @@ class UserService{
             const user = await Utils.findByCredentials('user',email,password);
             const token = await Utils.generateAuthToken('user',user._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,user);
-            await authenticatedUser.save();
             return authenticatedUser ;
         } catch (error) {
             throw new Error(error);

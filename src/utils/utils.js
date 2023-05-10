@@ -21,7 +21,8 @@ async function authenticateLogger(root,token,user){
             await userToBeAuthenticated.save();
             const responseUser={
                 name: userToBeAuthenticated.name,
-                email: userToBeAuthenticated.email
+                email: userToBeAuthenticated.email,
+                token:token
             }
             return responseUser;
         

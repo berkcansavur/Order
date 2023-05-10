@@ -1,6 +1,8 @@
 const User =require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const Courier = require('../models/courier.model');
+const {container} = require('../di-setup');
+const UserRepository = container.resolve('UserRepository');
 const auth = async(req,res,next)=>{
     let root=req.path;
     try{
@@ -75,13 +77,24 @@ const auth = async(req,res,next)=>{
             if(!decoded) {
             throw new Error('token can not verify');
             }
-            const user = await User.findOne({_id: decoded.userId,'tokens.token':token});
+            const user = await UserRepository.getUserById(decoded.userId);
+            const findedUser = await user.tokens.filter((tokens)=>{
+                return tokens.token == token
+            })
             if (!user) {
                 throw new Error('User can not found !');
             }
-            req.token = token;
-            req.user = user;
-            next();
+            if(findedUser.length!==0){
+                req.token = token;
+                req.user = user;
+                next();
+            }
+            if(findedUser.length===0){
+                throw new Error('Users token can not be found');
+                next();
+            }
+            
+            
         }
     }catch (error) {
         return res.status(401).send({error: 'Unauthorized'});

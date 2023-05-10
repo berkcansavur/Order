@@ -6,25 +6,12 @@ const {container} = require('../di-setup');
 const userController = container.resolve('UserController');
 const User = require('../models/user.model');
 const auth = require('../middlewares/authentication.middleware');
-const UserService = require('../services/user.service');
 //ROUTERS
 router.post('/users',validateRequest(validateCreateUserSchema),userController.createUser);
 
+router.post('/users/login', validateRequest(validateCreateUserSchema),userController.loginUser);
 
-router.post('/users/login', async(req, res) => {
-    try {
-        return res.send(await UserService.loginUser(req.body.email,req.body.password));
-    } catch (e) {
-        return res.status(400).send('Cannot Login');
-    }
-});
-router.post('/users/logout', auth, async (req,res)=>{
-    try {
-        return res.send(await UserService.logoutUser(req.user,req.token));
-    } catch (error) {
-        return res.status(500).send('Cannot logout successfully.');
-    }
-});
+router.post('/users/logout', auth, validateRequest(validateCreateUserSchema),userController.logoutUser);
 router.get('/users/me', auth, async(req, res) => {
     return res.send(await userService.findUser(req.user));
 });
