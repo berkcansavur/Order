@@ -12,9 +12,7 @@ router.post('/users',validateRequest(validateCreateUserSchema),userController.cr
 router.post('/users/login', validateRequest(validateCreateUserSchema),userController.loginUser);
 
 router.post('/users/logout', auth, validateRequest(validateCreateUserSchema),userController.logoutUser);
-router.get('/users/me', auth, async(req, res) => {
-    return res.send(await userService.findUser(req.user));
-});
+router.get('/users/me', auth,validateRequest(validateCreateUserSchema),userController.getMe);
 router.get('/users',auth, async(req, res) => {
     try {
         const users = await User.find({});
@@ -23,13 +21,7 @@ router.get('/users',auth, async(req, res) => {
         return res.status(404).send(e);
     }
 });
-router.delete('/users/me', auth, async(req,res)=>{
-    try{
-        return res.send(await userService.deleteUser(req.user._id));
-    }catch(e){
-        return res.status(500).send();
-    }
-});
+router.delete('/users/me', auth, validateRequest(validateCreateUserSchema),userController.deleteUser);
 router.patch('/users/me',auth, async(req,res)=>{
     try {
         return res.send(await userService.updateUser(req.user._id,req.body));

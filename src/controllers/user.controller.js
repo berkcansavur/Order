@@ -4,6 +4,8 @@ class UserController{
         this.createUser = this.createUser.bind(this);
         this.loginUser = this.loginUser.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
+        this.getMe = this.getMe.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
     async createUser(req,res){
         try {
@@ -27,6 +29,22 @@ class UserController{
             return res.send(loggedOutUser);
         } catch (error) {
             return res.status(404).send(error.message);
+        }
+    }
+    async getMe(req,res){
+        try {
+            const user = await this.UserService.getUserById(req.user._id);
+            return res.status(200).send(user);
+        } catch (error) {
+            return res.status(404).send(error.message);
+        }
+    }
+    async deleteUser(req,res){
+        try {
+            const user = await this.UserService.deleteUserById(req.user._id);
+            return res.status(200).send('User '+user.email+' is deleted');
+        } catch (error) {
+            return res.status(404).send(error.message); 
         }
     }
 }

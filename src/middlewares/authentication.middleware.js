@@ -91,7 +91,6 @@ const auth = async(req,res,next)=>{
             }
             if(findedUser.length===0){
                 throw new Error('Users token can not be found');
-                next();
             }
             
             

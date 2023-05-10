@@ -88,11 +88,10 @@ class UserRepository{
     }
     async deleteUserById(id){
         try {
-            const user = await this.User.findById(id);
-            await user.remove();
+            const user = await this.User.findByIdAndRemove(id.toString());
             return user;
         } catch (error) {
-            throw new Error('Users token could not be removed.');
+            throw new Error('Users could not be removed.');
         }
     }
     async removeUsersToken(user,token){
