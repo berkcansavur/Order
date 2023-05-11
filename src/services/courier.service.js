@@ -3,6 +3,9 @@ class CourierService{
     constructor({CourierRepository}){
         this.CourierRepository = CourierRepository;
         this.createCourier = this.createCourier.bind(this);
+        this.loginCourier = this.loginCourier.bind(this);
+        this.logoutCourier = this.logoutCourier.bind(this);
+        this.deleteCourierById = this.deleteCourierById.bind(this); 
     }
     async createCourier(courier){
         try {
@@ -23,6 +26,27 @@ class CourierService{
             return authenticatedCourier;
         } catch (error) {
             throw new Error('Courier has not login on CourierService.loginUser');
+        }
+    }
+    async logoutCourier(courier,token){
+        try {
+            const loggedoutCourier = await this.CourierRepository.removeCouriersToken(courier,token);
+            if(!loggedoutCourier){
+                throw new Error('Couriers token has not removed');
+            }
+            const returnMessage = "Courier "+loggedoutCourier.courierName+" has been logged out";
+            return returnMessage;
+        } catch (error) {
+            throw new Error('Courier has not been logged out');
+        }
+    }
+    async deleteCourierById(id){
+        try {
+            const courier = await this.CourierRepository.deleteCourierById(id);
+            const returnMessage = "Courier "+courier.courierName+" has been deleted";
+            return returnMessage;
+        } catch (error) {
+            throw new Error('Courier could not deleted.')
         }
     }
 }

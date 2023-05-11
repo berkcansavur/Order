@@ -12,4 +12,7 @@ router.post('/couriers/login', validateRequest(validateCreateCourierSchema),cour
 
 router.post('/couriers/logout',auth, validateRequest(validateCreateCourierSchema),courierController.logoutCourier);
 
+router.delete('/couriers/me',auth,validateRequest(validateCreateCourierSchema),courierController.deleteCourier);
+
+router.post('/couriers/logout',auth,validateRequest(validateCreateCourierSchema),courierController.logoutCourier);
 module.exports = router;

@@ -102,7 +102,7 @@ class UserService{
         try {
             const loggedOutUser = await this.UserRepository.removeUsersToken(user,token);
             if(!loggedOutUser){
-                return ('User could not be removed');
+                throw new Error('Users tokens has not been removed');
             }
             return ('user '+loggedOutUser.email+' has been logged out');
         } catch (error) {

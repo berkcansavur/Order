@@ -4,6 +4,8 @@ class CourierRepository{
         this.Courier = mongoose.model('Courier',CourierSchema);
         this.createCourier = this.createCourier.bind(this);
         this.updateCourierById = this.updateCourierById.bind(this);
+        this.deleteCourierById = this.deleteCourierById.bind(this);
+        this.removeCouriersToken= this.removeCouriersToken.bind(this);
     }
     async createCourier(courier){
         try {
@@ -31,6 +33,25 @@ class CourierRepository{
             return courier;
         } catch (error) {
             throw new Error('Courier has not found.')
+        }
+    }
+    async deleteCourierById(id){
+        try {
+            const courier = await this.Courier.findByIdAndDelete(id.toString());
+            return courier;
+        } catch (error) {
+            throw new Error('Courier has not been deleted.')
+        }
+    }
+    async removeCouriersToken(courier,token){
+        try {
+            courier.tokens = courier.tokens.filter((Tokens)=>{
+                return Tokens.token !== token
+                });
+                await courier.save();
+                return courier;
+        } catch (error) {
+            throw new Error('Courier has not been logged out.');
         }
     }
 }
