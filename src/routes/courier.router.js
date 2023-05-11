@@ -6,7 +6,7 @@ const {container} = require('../di-setup');
 const courierController = container.resolve('CourierController');
 const auth = require('../middlewares/authentication.middleware');
 //ROUTERS
-router.post('/courier', validateRequest(validateCreateCourierSchema),courierController.createCourier);
+router.post('/couriers', validateRequest(validateCreateCourierSchema),courierController.createCourier);
 
 router.post('/couriers/login', validateRequest(validateCreateCourierSchema),courierController.loginCourier);
 

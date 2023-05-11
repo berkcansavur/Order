@@ -1,13 +1,16 @@
 const Utils = require('../utils/utils');
 class CourierService{
-    constructor(CourierRepository){
+    constructor({CourierRepository}){
         this.CourierRepository = CourierRepository;
         this.createCourier = this.createCourier.bind(this);
     }
     async createCourier(courier){
         try {
             const newCourier = await this.CourierRepository.createCourier(courier);
-            return newCourier;
+            const token = await Utils.generateAuthToken('courier',newCourier._id);
+            const createdCourier = await this.CourierRepository.getCourierById(newCourier._id);
+            const authenticatedCourier = await Utils.authenticateLogger('courier',token,createdCourier);
+            return authenticatedCourier;
         } catch (error) {
             throw new Error('Courier has not been created on CourierService.createUser');
         }
