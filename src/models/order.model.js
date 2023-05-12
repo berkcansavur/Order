@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 const {Status} = require('../utils/constants');
 const orderSchema = new mongoose.Schema({
-    customerName: {
-        type: mongoose.Schema.Types.Object,
-        required: true,
-        ref:'User'
+    customer: {
+        _id : {type:String, required:true},
+        name : {type:String, required:true},
+        email: {type:String, required:true}
     },
     product: {
         type: String,
@@ -18,11 +18,13 @@ const orderSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        default: 0,
     },
     courier:{
-        type : mongoose.Schema.Types.Object,
-        ref :'Courier'
+        _id : {type:String},
+        name : {type:String},
+        email: {type:String},
+        phone: {type:Number}
     },
     status:{
         type: String,
@@ -35,13 +37,21 @@ const orderSchema = new mongoose.Schema({
 const Order = mongoose.model('Order', orderSchema);
 function validateOrder(order){
     const schema = Joi.object({
-        customerName: Joi.string().required(),
-        product: Joi.string().required(),
-        quantity: Joi.number().required(),
-        price: Joi.number().required(),
-        courier: Joi.string().required(),
-        status: Joi.string().required()
+        customer:Joi.object({
+            _id:Joi.string(),
+            name:Joi.string(),
+            email:Joi.string(),
+        }).required(),
+        product:Joi.string().required(),
+        quantity:Joi.number().required(),
+        price:Joi.number(),
+        courier:Joi.object({
+            _id:Joi.string(),
+            name:Joi.string(),
+            email:Joi.string(),
+            phone:Joi.number(),
+        })
     });
     return schema.validate(order);
 }
-module.exports= {Order, validateOrder}; 
+module.exports = {Order, validateOrder,orderSchema}; 

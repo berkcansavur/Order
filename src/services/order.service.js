@@ -1,32 +1,31 @@
-const UserService = require('./user.service.js');
 class OrderService{
-    constructor({orderRepository}){
-        this.orderRepository = orderRepository;
+    constructor({OrderRepository}){
+        this.OrderRepository = OrderRepository;
+        this.createOrder = this.createOrder.bind(this);
+        this.getOrderById = this.getOrderById.bind(this);
+        this.updateOrderById = this.updateOrderById.bind(this);
+        this.deleteOrderById = this.deleteOrderById.bind(this);
     }
     async createOrder(order,user){
         try {
-            const newOrder = await this.orderRepository.createOrder(order,user);
-            const orderDetails = {
-                user: await UserService.getUserNameById(user._id),
-                details: newOrder
-            }
-        return orderDetails;
+            const newOrder = await this.OrderRepository.createOrder(order,user);
+            return newOrder;
         } catch (error) {
             throw new Error(error);
         }
     }
     async getOrderById(id){
-        return this.orderRepository.getOrderById(id);
+        return this.OrderRepository.getOrderById(id);
     }
     async updateOrderById(id, order){
         try {
-            return this.orderRepository.updateOrderById(id, order);
+            return this.OrderRepository.updateOrderById(id, order);
         } catch (error) {
             throw new Error(error);
         }
     }
     async deleteOrderById(id){
-        return this.orderRepository.deleteOrderById(id);
+        return this.OrderRepository.deleteOrderById(id);
     }
 }
 module.exports = OrderService;

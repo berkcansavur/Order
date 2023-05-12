@@ -53,11 +53,6 @@ const courierSchema = new mongoose.Schema({
 },{
     timestamps:true
 });
-courierSchema.virtual('orders',{
-    ref:'Order',
-    localField:'_id',
-    foreignField:'courier'
-});
 courierSchema.methods.toJSON = function(){
     const courier = this;
     const courierObject = courier.toObject();
