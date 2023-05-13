@@ -1,7 +1,6 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Joi = require('joi');
 const warehouseManagerSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -10,6 +9,7 @@ const warehouseManagerSchema = new mongoose.Schema({
     },
     email:{
         type:String, 
+        unique:true,
         required:true,
         trim:true,
         lowercase:true,
@@ -54,12 +54,5 @@ warehouseManagerSchema.pre('save',async function(next){
     next();
 });
 const WarehouseManager = mongoose.model('WarehouseManager',warehouseManagerSchema);
-function validateWarehouseManager(warehouseManager){
-    const schema = Joi.object({
-        name:Joi.string().required(),
-        email:Joi.string().required(),
-        password:Joi.string().required(),
-    });
-    return schema.validate(warehouseManager);
-}
-module.exports = { WarehouseManager,validateWarehouseManager,warehouseManagerSchema};
+
+module.exports = { WarehouseManager,warehouseManagerSchema};

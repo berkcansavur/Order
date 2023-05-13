@@ -1,9 +1,12 @@
 const Utils = require('../utils/utils');
 class WarehouseManagerService{
-    constructor({WarehouseManagerRepository}){
+    constructor({WarehouseManagerRepository,ProductRepository,CourierRepository}){
+        this.ProductRepository = ProductRepository;
+        this.CourierRepository = CourierRepository;
         this.WarehouseManagerRepository = WarehouseManagerRepository;
         this.createWarehouseManager = this.createWarehouseManager.bind(this);
         this.loginWarehouseManager = this.loginWarehouseManager.bind(this); 
+        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }
     async createWarehouseManager(warehouseManager){
         try {
@@ -22,6 +25,21 @@ class WarehouseManagerService{
             const token = await Utils.generateAuthToken('warehousemanager',warehouseManager._id);
             const authenticatedUserManager = await Utils.authenticateLogger('warehousemanager',token,warehouseManager);
             return authenticatedUserManager;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async createProductSupplyRequest(productId, quantity){
+        try {
+            const productToSupply = await this.CourierRepository.getProductById(productId);
+            
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async createCourierSupplyRequest(courierId, quantity){
+        try {
+            const courierSupply = '';  
         } catch (error) {
             throw new Error(error);
         }

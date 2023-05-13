@@ -1,7 +1,6 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Joi = require('joi');
 const userSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -65,12 +64,4 @@ userSchema.pre('save', async function(next) {
     next();
 });
 const User = mongoose.model('User',userSchema);
-function validateUser(user) {
-    const schema = Joi.object({
-        name: Joi.string().min(3).required(),
-        email: Joi.string().min(5).required().email(),
-        password: Joi.string().min(5).required()
-    });
-    return schema.validate(user);
-}
-module.exports = {User,validateUser,userSchema};
+module.exports = {User,userSchema};

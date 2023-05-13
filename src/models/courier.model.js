@@ -1,7 +1,6 @@
 const validator = require('validator');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const Joi = require('joi');
 const courierSchema = new mongoose.Schema({
     courierName:{
         type: String,
@@ -68,14 +67,4 @@ courierSchema.pre('save', async function(next){
         next();
 });
 const Courier = mongoose.model('Courier',courierSchema);
-function validateCourier(courier){
-    const schema = Joi.object({
-        courierName: Joi.string().required(),
-        email:Joi.string().required().email(),
-        password:Joi.string().required().min(8),
-        age:Joi.number().default(0),
-        phone:Joi.number().default(0)
-    });
-    return schema.validate(courier);
-}
-module.exports = {Courier,validateCourier,courierSchema}
+module.exports = {Courier,courierSchema}

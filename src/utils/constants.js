@@ -1,4 +1,4 @@
-const Status=Object.freeze({
+const OrderStatus=Object.freeze({
     CREATED: 100,
     APPROVED: 200,
     PREPARING_STARTED: 300,
@@ -8,4 +8,18 @@ const Status=Object.freeze({
     DENIED: 600,
     CANCELLED: 700
 });
-module.exports={Status}
+const ProductSupplyStatus=Object.freeze({
+    CREATED:100,
+    APPROVED:200,
+    ONTHEWAY:300,
+    DELIVERED:400,
+    REJECTED:500,
+});
+const CourierSupplyStatus=Object.freeze({
+    CREATED:100,
+    APPROVED:200,
+    ONTHEWAY:300,
+    DELIVERED:400,
+    REJECTED:500,
+});
+module.exports={OrderStatus,ProductSupplyStatus,CourierSupplyStatus}
