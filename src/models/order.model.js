@@ -7,19 +7,12 @@ const orderSchema = new mongoose.Schema({
         name : {type:String, required:true},
         email: {type:String, required:true}
     },
-    product: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    quantity: {
-        type: Number,
-        required: true
-    },
-    price: {
-        type: Number,
-        default: 0,
-    },
+    products: [{
+        product:{
+            type:mongoose.Schema.Types.Object,
+            ref:'Product'
+        }
+    }],
     courier:{
         _id : {type:String},
         name : {type:String},
@@ -42,9 +35,11 @@ function validateOrder(order){
             name:Joi.string(),
             email:Joi.string(),
         }).required(),
-        product:Joi.string().required(),
-        quantity:Joi.number().required(),
-        price:Joi.number(),
+        products: Joi.array().items(
+            Joi.object({
+              product: Joi.object().required(),
+            })
+          ).required(),
         courier:Joi.object({
             _id:Joi.string(),
             name:Joi.string(),

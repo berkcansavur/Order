@@ -5,9 +5,15 @@ const validateOrderSchema = Joi.object({
         name:Joi.string(),
         email:Joi.string(),
     }).required(),
-    product:Joi.string().required(),
-    quantity:Joi.number().required(),
-    price:Joi.number(),
+    products: Joi.array().items(
+        Joi.object({
+          product: Joi.object({
+            productName: Joi.string().required(),
+            quantity: Joi.number().required(),
+            price: Joi.number(),
+          }).required(),
+        })
+      ).required(),
     courier:Joi.object({
         _id:Joi.string(),
         name:Joi.string(),

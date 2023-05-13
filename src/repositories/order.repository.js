@@ -10,15 +10,22 @@ class OrderRepository{
     }
     async createOrder(order,user){
         try {
+            
+            const products = order.products.map(product => {
+                return {
+                  product: {
+                    productName: product.productName,
+                    quantity: product.quantity
+                  }
+                };
+              });
             const newOrder = await this.Order({
                 customer:{
                     _id:user._id.toString(),
                     name:user.name.toString(),
                     email:user.email.toString(),
                 },
-                product:order.product,
-                quantity:order.quantity
-                
+                products              
             });
             await newOrder.save();
             return newOrder;
@@ -44,8 +51,7 @@ class OrderRepository{
     }
     async deleteOrderById(id){
         try {
-            const order = await this.Order.findById(id);
-            await order.remove();
+            const order = await this.Order.findByIdAndRemove(id);
             return order;
         } catch (error) {
             throw new Error(error);

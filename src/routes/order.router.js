@@ -8,38 +8,9 @@ const auth = require('../middlewares/authentication.middleware');
 
 router.post('/orders',auth,validateRequest(validateOrderSchema),orderController.createOrder);
 
-// routes
-// router.post('/orders',auth,)
-// router.patch('/orders/update',auth,async(req, res)=>{
-//     try {
-//         return res.send(await OrderService.updateOrder(req.body))
-//     } catch (error) {
-//         return res.status(500).send(error);   
-//     } 
-// })
-// router.get('/orders', auth, async(req,res)=>{
-//     const match = {};
-//     const sort = {};
-//     if(req.query.status){
-//         match.status = req.query.status === 'delivered';
-//     }
-//     if(req.query.sortBy){
-//         const parts =req.query.sortBy.split(':');
-//         sort[parts[0]]= parts[1]==='desc'?-1:1
-//     }try{
-//         await req.user.populate({
-//             path:'orders',
-//             match,
-//             options:{
-//                 limit:parseInt(req.query.limit),
-//                 skip:parseInt(req.query.skip),
-//                 sort
-//             }
-//         })
-//         return res.send(req.user.orders);
-//     }catch(e){
-//         return res.status(500).send(e);
-//     }
-// })
+router.delete('/orders/:orderId/delete',auth,validateRequest(validateOrderSchema),orderController.deleteOrder);
+
+router.post('orders/:orderId/update',auth,validateRequest(validateOrderSchema),orderController.updateOrder);
+
 
 module.exports= router;

@@ -15,7 +15,11 @@ class OrderService{
         }
     }
     async getOrderById(id){
-        return this.OrderRepository.getOrderById(id);
+        try {
+            return this.OrderRepository.getOrderById(id);
+        } catch (error) {
+            throw new Error(error);
+        }
     }
     async updateOrderById(id, order){
         try {
@@ -25,7 +29,27 @@ class OrderService{
         }
     }
     async deleteOrderById(id){
-        return this.OrderRepository.deleteOrderById(id);
+        try {
+            return this.OrderRepository.deleteOrderById(id);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async assignOrderToCourier(order,courier){
+        try {
+            const orderToAssign = await this.OrderRepository.getOrderById(order._id.toString());
+            orderToAssign.courier = {
+                _id : courier._id,
+                name : courier.name,
+                email : courier.email,
+                phone : courier.phone
+            }
+            orderToAssign.status = 200
+            await orderToAssign.save();
+            return orderToAssign;
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
 module.exports = OrderService;
