@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const {container} = require('../di-setup');
 const UserRepository = container.resolve('UserRepository');
 const CourierRepository = container.resolve('CourierRepository');
+const WarehouseManagerRepository = container.resolve('WarehouseManagerRepository');
 const auth = async(req,res,next)=>{
     let root=req.path;
     try{
@@ -147,6 +148,28 @@ const auth = async(req,res,next)=>{
             }
             if(findedCourier.length===0){
                 throw new Error('Couriers token has not found')
+            }
+        }
+        if(root.toString().includes('/warehouse-manager')){
+            const token = req.header('Authorization').replace('Bearer ','');
+            const decoded = jwt.verify(token,process.env.JWT_SECRET);
+            if(!decoded) {
+            throw new Error('token can not verify');
+            }
+            const warehouseManager = await WarehouseManagerRepository.getWarehouseManagerById(decoded.userId);
+            const findedWarehouseManager = await warehouseManager.tokens.filter((tokens)=>{
+                return tokens.token == token
+            })
+            if (!warehouseManager) {
+                throw new Error('Warehouse manager has not found !');
+            }
+            if(findedWarehouseManager.length!==0){
+                req.token = token;
+                req.warehouseManager = warehouseManager;
+                next();
+            }
+            if(findedWarehouseManager.length===0){
+                throw new Error('Warehouse managers token has not found');
             }
         }
         

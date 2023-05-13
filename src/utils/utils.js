@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-const {User} = require('../models/user.model');
 const bcrypt = require('bcryptjs');
+const {User} = require('../models/user.model');
+const {WarehouseManager} = require('../models/warehousemanager.model');
 const {Courier} = require('../models/courier.model');
 async function authenticateLogger(root,token,logger){
     if(root==='courier'){
@@ -31,6 +32,20 @@ async function authenticateLogger(root,token,logger){
             return responseUser;
         
     }
+    if(root==='warehousemanager'){
+        const warehouseManagerToBeAuthenticated = await WarehouseManager.findById(logger._id.toString());
+        const tokens = warehouseManagerToBeAuthenticated.tokens.slice();
+        tokens.push({token});
+        warehouseManagerToBeAuthenticated.tokens = tokens;
+        await warehouseManagerToBeAuthenticated.save();
+        const responsewarehouseManagerToBeAuthenticated={
+            name: warehouseManagerToBeAuthenticated.name,
+            email: warehouseManagerToBeAuthenticated.email,
+            token:token
+        }
+        return responsewarehouseManagerToBeAuthenticated;
+    
+}
 }
 async function generateAuthToken(root,Id){
     if(root === 'courier'){
@@ -39,6 +54,10 @@ async function generateAuthToken(root,Id){
     }   
     if(root === 'user'){ 
         const token = jwt.sign({userId: Id },process.env.JWT_SECRET);
+        return token;
+    }
+    if(root === 'warehousemanager'){ 
+        const token = jwt.sign({warehouseManagerId: Id },process.env.JWT_SECRET);
         return token;
     }
     
@@ -65,6 +84,17 @@ async function findByCredentials(root,email,password){
             throw new Error('Unable to login');
         }
         return courier;
+    }
+    if(root==='warehousemanager'){
+        const warehouseManager = await WarehouseManager.findOne({email});
+        if(!warehouseManager){
+            throw new Error('Unable to login');
+        }
+        const isMatch = await bcrypt.compare(password, warehouseManager.password);
+        if(!isMatch){
+            throw new Error('Unable to login');
+        }
+        return warehouseManager;
     }
 }
 module.exports = {

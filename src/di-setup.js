@@ -20,6 +20,11 @@ const {ProductSchema} = require('./models/product.model');
 const ProductRepository = require('./repositories/product.repository');
 const ProductService = require('./services/product.service');
 const ProductController = require('./controllers/product.controller');
+// Warehouse-Manager Dependencies
+const {WarehouseManagerSchema} = require('./models/warehousemanager.model');
+const WarehouseManagerRepository = require('./repositories/warehousemanager.repository');
+const WarehouseManagerService = require('./services/warehousemanager.service');
+const WarehouseManagerController = require('./controllers/warehousemanager.controller');
 
 
 const container = awilix.createContainer();
@@ -48,7 +53,10 @@ function setup(){
         ProductService: awilix.asClass(ProductService),
         ProductController: awilix.asClass(ProductController),
         
-        
+        WarehouseManagerSchema: awilix.asValue(WarehouseManagerSchema),        
+        WarehouseManagerRepository: awilix.asClass(WarehouseManagerRepository),
+        WarehouseManagerService: awilix.asClass(WarehouseManagerService),
+        WarehouseManagerController: awilix.asClass(WarehouseManagerController),
     });
 }
 module.exports = {container,setup};
