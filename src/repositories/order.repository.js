@@ -13,10 +13,7 @@ class OrderRepository{
             
             const products = order.products.map(product => {
                 return {
-                  product: {
-                    productName: product.productName,
-                    quantity: product.quantity
-                  }
+                  productId:product._id,
                 };
               });
             const newOrder = await this.Order({

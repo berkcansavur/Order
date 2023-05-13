@@ -3,7 +3,21 @@ const bcrypt = require('bcryptjs');
 const {User} = require('../models/user.model');
 const {WarehouseManager} = require('../models/warehousemanager.model');
 const {Courier} = require('../models/courier.model');
+const {Management} = require('../models/management.model');
 async function authenticateLogger(root,token,logger){
+    if(root==='manager'){
+        const managerToBeAuthenticated = await Management.findById(logger._id);
+        const tokens = managerToBeAuthenticated.tokens.slice();
+        tokens.push({token});
+        managerToBeAuthenticated.tokens = tokens;
+        await managerToBeAuthenticated.save();
+        const responseManager={
+            managerName: managerToBeAuthenticated.managerName,
+            email: managerToBeAuthenticated.email,
+            token:token
+        }
+        return responseManager;
+    }
     if(root==='courier'){
         const courierToBeAuthenticated = await Courier.findById(logger._id)
         const tokens = courierToBeAuthenticated.tokens.slice();
@@ -60,6 +74,10 @@ async function generateAuthToken(root,Id){
         const token = jwt.sign({warehouseManagerId: Id },process.env.JWT_SECRET);
         return token;
     }
+    if(root === 'manager'){ 
+        const token = jwt.sign({managerId: Id },process.env.JWT_SECRET);
+        return token;
+    }
     
 }
 async function findByCredentials(root,email,password){
@@ -95,6 +113,17 @@ async function findByCredentials(root,email,password){
             throw new Error('Unable to login');
         }
         return warehouseManager;
+    }
+    if(root==='manager'){
+        const manager = await Management.findOne({email});
+        if(!manager){
+            throw new Error('Unable to login');
+        }
+        const isMatch = await bcrypt.compare(password, manager.password);
+        if(!isMatch){
+            throw new Error('Unable to login');
+        }
+        return manager;
     }
 }
 module.exports = {

@@ -9,6 +9,7 @@ const CourierRouter = require('./routes/courier.router');
 const OrderRouter = require('./routes/order.router');
 const ProductRouter = require('./routes/product.router');
 const WareHouseManagerRouter = require('./routes/warehousemanager.router');
+const ManagementRouter = require('./routes/management.router');
 //express application
 const app  = express();
 //Parse incoming request bodies as JSON
@@ -20,5 +21,6 @@ app.use(OrderRouter);
 app.use(CourierRouter);
 app.use(ProductRouter);
 app.use(WareHouseManagerRouter);
+app.use(ManagementRouter);
 
 module.exports = app;
