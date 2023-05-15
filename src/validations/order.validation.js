@@ -5,20 +5,18 @@ const validateOrderSchema = Joi.object({
         name:Joi.string(),
         email:Joi.string(),
     }).required(),
-    products: Joi.array().items(
-        Joi.object({
-          product: Joi.object({
-            productName: Joi.string().required(),
-            quantity: Joi.number().required(),
-            price: Joi.number(),
-          }).required(),
-        })
-      ).required(),
+    products:Joi.array().items(Joi.object({
+      product:Joi.object({
+          productId:Joi.string(),
+          productQuantity:Joi.number()
+      })
+  })).required(),
     courier:Joi.object({
         _id:Joi.string(),
         name:Joi.string(),
         email:Joi.string(),
         phone:Joi.number(),
-    })
+    }),
+    fromWarehouseId:Joi.string().required(),
 });
 module.exports = validateOrderSchema;

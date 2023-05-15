@@ -9,8 +9,13 @@ const warehouseSchema = mongoose.Schema({
         required:true,
     },
     products:[{
-        productId:{
-            type:String
+        product:{
+            productId:{
+                type:String
+            },
+            productQuantity:{
+                type:Number
+            }
         }
     }],
     couriers:[{

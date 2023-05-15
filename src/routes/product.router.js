@@ -6,6 +6,6 @@ const {container} = require('../di-setup');
 const productController = container.resolve('ProductController');
 const auth = require('../middlewares/authentication.middleware');
 
-router.post('/products',auth,validateRequest(validateProductSchema),productController.registerProduct);
+router.post('/products',validateRequest(validateProductSchema),productController.registerProduct);
 
 module.exports = router;

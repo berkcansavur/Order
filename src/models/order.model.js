@@ -6,10 +6,14 @@ const orderSchema = new mongoose.Schema({
         name : {type:String, required:true},
         email: {type:String, required:true}
     },
-    products: [{
-        productId:{
-            type:String,
-            required:true
+    products:[{
+        product:{
+            productId:{
+                type:String
+            },
+            productQuantity:{
+                type:Number
+            }
         }
     }],
     courier:{
@@ -22,6 +26,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(OrderStatus),
         default: OrderStatus.CREATED
+    },
+    fromWarehouseId:{
+        type: String,
+        required:true
     }
 },{
     timestamps:true
