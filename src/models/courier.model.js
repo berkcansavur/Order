@@ -53,12 +53,12 @@ const courierSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Object,
         ref:'Warehouse',
     },
-    orders:{
+    orders:[{
         order:{
             type:mongoose.Schema.Types.Object,
             ref:'Order',
         }
-    }
+    }]
 },{
     timestamps:true
 });

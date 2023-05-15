@@ -83,7 +83,7 @@ class CourierRepository{
     }
     async getCourierOrdersById(id){
         try {
-            const courier = await this.Courier.findById(id.ToString());
+            const courier = await this.Courier.findById(id.toString());
             const orders = courier.orders;
             return orders; 
         } catch (error) {

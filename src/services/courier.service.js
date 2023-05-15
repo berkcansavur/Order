@@ -52,10 +52,11 @@ class CourierService{
             throw new Error('Courier could not deleted.')
         }
     }
-    async getCourierOrdersById(courierId,){
+    async getCourierOrdersById(courierId){
         try {
-            const courier = await this.CourierRepository.getCourierOrdersById(courierId.toString());
-            return courier;
+            const courier = await this.CourierRepository.getCourierById(courierId.toString());
+            const orders = courier.orders;
+            return orders;
         } catch (error) {
             throw new Error(error);
         }

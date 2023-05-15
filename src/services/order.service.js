@@ -6,6 +6,7 @@ class OrderService{
         this.createOrder = this.createOrder.bind(this);
         this.getOrderById = this.getOrderById.bind(this);
         this.assignOrderToCourier = this.assignOrderToCourier.bind(this);
+        this.assignCourierToOrder = this.assignCourierToOrder.bind(this);
         this.updateOrderById = this.updateOrderById.bind(this);
         this.deleteOrderById = this.deleteOrderById.bind(this);
         this.updateOrderStatusApprovedById = this.updateOrderStatusApprovedById.bind(this);
@@ -48,11 +49,22 @@ class OrderService{
     }
     async assignOrderToCourier(orderId,courier){
         try {
-            const orderToAssign = await this.OrderRepository.getOrderById(orderId);
-            orderToAssign.courier = courier;
-            orderToAssign.status = 200
-            await orderToAssign.save();
-            return orderToAssign;
+            const order = await this.OrderRepository.getOrderById(orderId);
+            order.courier = courier;
+            order.status = 200
+            await order.save();
+            await this.assignCourierToOrder(orderId, courier);
+            return order;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async assignCourierToOrder(orderId,courier){
+        try {
+            const order = await this.OrderRepository.getOrderById(orderId);
+            courier.orders = [{order:order},{new:true}];
+            await courier.save();
+            return courier;
         } catch (error) {
             throw new Error(error);
         }

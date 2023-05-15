@@ -6,6 +6,9 @@ const validateCourierSchema = Joi.object({
     password: Joi.string().required(),
     age:Joi.number(),
     phone: Joi.number(),
-    wareHouse: Joi.object(),
+    warehouse: Joi.object(),
+    orders:Joi.array().items(Joi.object({
+        order:Joi.object()
+    }))
 })
 module.exports = validateCourierSchema;
