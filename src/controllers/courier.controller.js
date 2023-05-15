@@ -5,6 +5,7 @@ class CourierController{
         this.loginCourier = this.loginCourier.bind(this);
         this.logoutCourier= this.logoutCourier.bind(this);
         this.deleteCourier= this.deleteCourier.bind(this);
+        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
     }
     async createCourier(req,res){
         try {
@@ -36,6 +37,22 @@ class CourierController{
             return res.status(200).send(deletedCourier);
         } catch (error) {
             return res.status(404).send(error.message);
+        }
+    }
+    async removeCourierOrderById(req,res){
+        try {
+            const updatedCourier = await this.CourierService.removeCourierOrderById(req.courier,req.params.orderId);
+            return updatedCourier;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async getCourierOrdersById(req,res){
+        try {
+            const orders = await this.CourierService.getCourierOrdersById(req.courier._id);
+            return res.status(200).send(orders);
+        } catch (error) {
+            return res.status(404).send(error);
         }
     }
 }

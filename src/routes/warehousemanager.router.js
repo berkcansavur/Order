@@ -9,4 +9,7 @@ const auth = require('../middlewares/authentication.middleware');
 router.post('/warehouse-manager',validateRequest(validateWarehouseManagerSchema),WarehouseManagerController.createWarehouseManager);
 
 router.post('/warehouse-manager/login',validateRequest(validateWarehouseManagerSchema),WarehouseManagerController.loginWarehouseManager);
+
+router.post('/warehouse-manager/addProducts',WarehouseManagerController.addProductsToWarehouse);
+
 module.exports = router;

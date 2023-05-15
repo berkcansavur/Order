@@ -20,5 +20,13 @@ class WarehouseManagerController{
             return res.status(404).send(error.message);
         }
     }
+    async addProductsToWarehouse(req,res){
+        try {
+            const products = await thisWarehouseManagerService.addProductsToWarehouse(req.warehouseManager,req.body);
+            
+        } catch (error) {
+            return res.status(404).send(error);
+        }
+    }
 }
 module.exports = WarehouseManagerController;

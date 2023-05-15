@@ -4,19 +4,22 @@ const validateManagementSchema = Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
     warehouses:Joi.array().items(Joi.object({
-        warehouseId: Joi.string(),
+        warehouse: Joi.object(),
     })),
-    product_supplies:Joi.array().items(Joi.object({
-        product_supply_id: Joi.string(),
+    warehouseManagers: Joi.array().items(Joi.object({
+        warehouseManager:Joi.object(),
+    })),
+    product_supplies: Joi.array().items(Joi.object({
+        product_supply: Joi.object(),
     })),
     courier_supplies:Joi.array().items(Joi.object({
-        courier_supply_id: Joi.string(),
+        courier_supply: Joi.object(),
     })),
     products:Joi.array().items(Joi.object({
-        productId: Joi.string(),
+        product: Joi.object(),
     })),
     couriers:Joi.array().items(Joi.object({
-        courierId: Joi.string(),
+        courier: Joi.object(),
     }))
 });
 module.exports = validateManagementSchema;

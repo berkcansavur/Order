@@ -6,6 +6,9 @@ class CourierRepository{
         this.updateCourierById = this.updateCourierById.bind(this);
         this.deleteCourierById = this.deleteCourierById.bind(this);
         this.removeCouriersToken= this.removeCouriersToken.bind(this);
+        this.getCourierWarehouseById = this.getCourierWarehouseById.bind(this);
+        this.removeCourierOrderById =this.removeCourierOrderById.bind(this);
+        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
     }
     async createCourier(courier){
         try {
@@ -52,6 +55,39 @@ class CourierRepository{
                 return courier;
         } catch (error) {
             throw new Error('Courier has not been logged out.');
+        }
+    }
+    async getCourierWarehouseById(id){
+        try {
+            const courier = await this.Courier.findById(id.toString());
+            const couriersWarehouse = courier.warehouse;
+            return couriersWarehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async removeCourierOrderById(id,order){
+        try {
+            
+            const courier = await this.Courier.findById(id.toString());
+            courier.orders = order.orders.filter((Orders)=>{
+                return Orders.order!== order;
+            });
+            await courier.save();
+            return courier;
+            
+
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async getCourierOrdersById(id){
+        try {
+            const courier = await this.Courier.findById(id.ToString());
+            const orders = courier.orders;
+            return orders; 
+        } catch (error) {
+            throw new Error(error);
         }
     }
 }

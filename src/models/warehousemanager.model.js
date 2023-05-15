@@ -29,6 +29,10 @@ const warehouseManagerSchema = new mongoose.Schema({
                 throw new Error('Password can not contain password');
             }
         }
+    },
+    warehouse:{
+        type: mongoose.Schema.Types.Object,
+        ref:'Warehouse'
     },  
     tokens:[{
         token:{
@@ -39,6 +43,11 @@ const warehouseManagerSchema = new mongoose.Schema({
 },{
     timestamps:true
 });
+warehouseManagerSchema.virtual('warehouseManager',{
+    ref:'Warehouse',
+    localField:'_id',
+    foreignField:'warehouseManager'
+})
 warehouseManagerSchema.methods.toJSON = function(){
     const WarehouseManager = this;
     const WarehouseManagerObject = WarehouseManager.toObject();

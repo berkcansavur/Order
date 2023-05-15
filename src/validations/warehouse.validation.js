@@ -9,6 +9,6 @@ const validateWarehouseSchema= Joi.object({
         })
     })),
     couriers:Joi.array().items(Joi.object({
-        courierId:Joi.string(),
+        courier:Joi.object(),
     }))
 })

@@ -1,11 +1,14 @@
 const Utils = require('../utils/utils');
 class CourierService{
-    constructor({CourierRepository}){
+    constructor({CourierRepository,OrderRepository}){
         this.CourierRepository = CourierRepository;
+        this.OrderRepository = OrderRepository;
         this.createCourier = this.createCourier.bind(this);
         this.loginCourier = this.loginCourier.bind(this);
         this.logoutCourier = this.logoutCourier.bind(this);
         this.deleteCourierById = this.deleteCourierById.bind(this); 
+        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
+        this.removeCourierOrderById = this.removeCourierOrderById.bind(this);
     }
     async createCourier(courier){
         try {
@@ -47,6 +50,23 @@ class CourierService{
             return returnMessage;
         } catch (error) {
             throw new Error('Courier could not deleted.')
+        }
+    }
+    async getCourierOrdersById(courierId,){
+        try {
+            const courier = await this.CourierRepository.getCourierOrdersById(courierId.toString());
+            return courier;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async removeCourierOrderById(courierId,orderId){
+        try {
+            const order = await this.OrderRepository.getOrderById(orderId);
+            const courier = await this.CourierRepository.removeCourierOrderById(courierId,order);
+            return courier;
+        } catch (error) {
+            throw new Error(error);
         }
     }
 }

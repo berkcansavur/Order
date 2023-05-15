@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 class OrderRepository{
-    constructor({OrderSchema,WarehouseRepository}){
+    constructor({OrderSchema,WarehouseRepository,ProductRepository}){
         this.Order = mongoose.model('Order', OrderSchema);
         this.WarehouseRepository = WarehouseRepository;
+        this.ProductRepository = ProductRepository;
         this.createOrder = this.createOrder.bind(this);
         this.getOrderById = this.getOrderById.bind(this);
         this.deleteOrderById = this.deleteOrderById.bind(this);
@@ -24,7 +25,7 @@ class OrderRepository{
                     return await referanceToClass.WarehouseRepository.consumeProductsFromWarehouseById(warehouseId,product.product);
                 }
             }
-            const updatedWarehouse = await updateWarehouse(order.products);
+            await updateWarehouse(order.products);
             const newOrder = await this.Order({
                 customer:{
                     _id:user._id.toString(),

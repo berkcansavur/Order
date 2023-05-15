@@ -36,32 +36,40 @@ const managementSchema = mongoose.Schema({
             required:true
         }
     }],
-    managers:{
-        managerId:{type: String}
-    },
     warehouses:[{
-        warehouseId:{
-            type:String
+        warehouse:{
+            type:mongoose.Schema.Types.Object,
+            ref:'Warehouse'
+        }
+    }],
+    warehouseManagers:[{
+        warehouseManager:{
+            type:mongoose.Schema.Types.Object,
+            ref:'WarehouseManager'
         }
     }],
     product_supplies:[{
-        product_supply_id:{
-            type:String
+        product_supply:{
+            type:mongoose.Schema.Types.Object,
+            ref:'ProductSupply'
         }
     }],
     courier_supplies:[{
-        courier_supply_id:{
-            type:String
+        courier_supply:{
+            type:mongoose.Schema.Types.Object,
+            ref:'CourierSupply'
         }
     }],
     products:[{
-        productId:{
-            type:String
+        product:{
+            type:mongoose.Schema.Types.Object,
+            ref:'Product'
         }
     }],
     couriers:[{
-        courierId:{
-            type:String
+        courier:{
+            type:mongoose.Schema.Types.Object,
+            ref:'Courier'
         }
     }],
 },{

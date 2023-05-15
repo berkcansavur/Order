@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 class WarehouseRepository{
-    constructor({WarehouseSchema}){
+    constructor({WarehouseSchema,ProductRepository}){
         this.Warehouse = mongoose.model('Warehouse',WarehouseSchema);
+        this.ProductRepository = ProductRepository;
         this.addWarehouse = this.addWarehouse.bind(this);
         this.removeWarehouseById = this.removeWarehouseById.bind(this);
         this.getWarehouseById= this.getWarehouseById.bind(this);
         this.getWarehousesProductsById = this.getWarehousesProductsById.bind(this);
         this.getWarehousesSelectedProductById = this.getWarehousesSelectedProductById.bind(this);
+        this.getWarehousesProductNameById = this.getWarehousesProductNameById.bind(this);
         this.consumeProductsFromWarehouseById = this.consumeProductsFromWarehouseById.bind(this);
         this.addProductsToWarehouseById = this.addProductsToWarehouseById.bind(this);
         this.updateWarehousesSelectedProductById = this.updateWarehousesSelectedProductById.bind(this);
@@ -53,14 +55,26 @@ class WarehouseRepository{
             throw new Error(error);
         }
     }
+    async getWarehousesProductNameById(warehouseId, productId){
+        try {
+            const warehouse = await this.getWarehouseById(warehouseId);
+            const productName = await warehouse.products.forEach((element)=>{
+                if(element.product.productId === productId){
+                    return this.ProductRepository.getProductNameById(element.product.productId);
+                }
+            })
+            return productName;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
     async consumeProductsFromWarehouseById(warehouseId, product){
         try {
             const warehouse = await this.getWarehouseById(warehouseId.toString());
             await warehouse.products.map((element)=>{
                 if(element.product.productId === product.productId|| element.product.productQuantity >= product.productQuantity) {
                     const calcualtion = element.product.productQuantity-product.productQuantity;
-                    element.product.productQuantity = calcualtion;
-                }
+                    element.product.productQuantity = calcualtion;                }
             })
             await warehouse.save();
             return warehouse;
@@ -107,13 +121,6 @@ class WarehouseRepository{
             return updatedWarehouse;
         } catch (error) {
             throw new Error(error);
-        }
-    }
-    async consumeProductsFromWarehouse(warehouseId,product){
-        try {
-            
-        } catch (error) {
-            
         }
     }
     async removeWarehouseById(id){

@@ -11,12 +11,8 @@ const validateOrderSchema = Joi.object({
           productQuantity:Joi.number()
       })
   })).required(),
-    courier:Joi.object({
-        _id:Joi.string(),
-        name:Joi.string(),
-        email:Joi.string(),
-        phone:Joi.number(),
-    }),
+    courier:Joi.object(),
+    status:Joi.string(),
     fromWarehouseId:Joi.string().required(),
 });
 module.exports = validateOrderSchema;

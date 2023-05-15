@@ -48,10 +48,25 @@ const courierSchema = new mongoose.Schema({
             type:String,
             required:true
         }
-    }]
+    }],
+    warehouse:{
+        type: mongoose.Schema.Types.Object,
+        ref:'Warehouse',
+    },
+    orders:{
+        order:{
+            type:mongoose.Schema.Types.Object,
+            ref:'Order',
+        }
+    }
 },{
     timestamps:true
 });
+courierSchema.virtual('courierOrder',{
+    ref:'Order',
+    localField:'_id',
+    foreignField:'courier'
+})
 courierSchema.methods.toJSON = function(){
     const courier = this;
     const courierObject = courier.toObject();

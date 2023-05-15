@@ -17,10 +17,8 @@ const orderSchema = new mongoose.Schema({
         }
     }],
     courier:{
-        _id : {type:String},
-        name : {type:String},
-        email: {type:String},
-        phone: {type:Number}
+        type: mongoose.Schema.Types.Object,
+        ref:'Courier',
     },
     status:{
         type: String,
@@ -33,6 +31,11 @@ const orderSchema = new mongoose.Schema({
     }
 },{
     timestamps:true
+})
+orderSchema.virtual('orderCourier',{
+    ref: 'Courier',
+    localField:'_id',
+    foreignField:'order'
 })
 const Order = mongoose.model('Order', orderSchema);
 module.exports = {Order,orderSchema}; 

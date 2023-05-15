@@ -15,4 +15,6 @@ router.post('/couriers/logout',auth, validateRequest(validateCourierSchema),cour
 router.delete('/couriers/me',auth,validateRequest(validateCourierSchema),courierController.deleteCourier);
 
 router.post('/couriers/logout',auth,validateRequest(validateCourierSchema),courierController.logoutCourier);
+
+router.get('/couriers/myOrders',auth,validateRequest(validateCourierSchema),courierController.getCourierOrdersById);
 module.exports = router;
