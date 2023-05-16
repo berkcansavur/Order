@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const {ProductSupplyStatus} = require('../utils/constants');
 const productSupplySchema = new mongoose.Schema({
-    productId:{
-        type:String,
+    product:{
+        type:mongoose.Schema.Types.Object,
+        ref:'Product',
         required:true
     },
     quantity:{
@@ -14,11 +15,13 @@ const productSupplySchema = new mongoose.Schema({
         required:true
     },
     toWarehouseId:{
-        type:String,
+        type:mongoose.Schema.Types.Object,
+        ref:'Warehouse',
         required:true
     },
     fromWarehouseId:{
-        type:String,
+        type:mongoose.Schema.Types.Object,
+        ref:'Warehouse',
         required:true
     },
     status:{

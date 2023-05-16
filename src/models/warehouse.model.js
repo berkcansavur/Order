@@ -39,5 +39,15 @@ warehouseSchema.virtual('warehouseCourier',{
     localField:'_id',
     foreignField:'courier'
 })
+warehouseSchema.virtual('formWarehouseSupply',{
+    ref:'ProductSupply',
+    localField:'_id',
+    foreignField:'fromWarehouseId'
+});
+warehouseSchema.virtual('toWarehouseSupply',{
+    ref:'ProductSupply',
+    localField:'_id',
+    foreignField:'toWarehouseId'
+});
 const Warehouse = mongoose.model('Warehouse',warehouseSchema);
 module.exports = {Warehouse,warehouseSchema}

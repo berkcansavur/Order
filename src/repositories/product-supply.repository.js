@@ -1,8 +1,15 @@
 const mongoose = require('mongoose');
 class ProductSupplyRepository{
-    constructor({ProductSupplySchema,WarehouseRepository}){
-        this.ProductSupply= ProductSupplySchema;
+    constructor({ProductSupplySchema,WarehouseRepository,ProductRepository,}){
+        this.ProductSupply= mongoose.model('ProductSupply',ProductSupplySchema);
         this.WarehouseRepository = WarehouseRepository;
+        this.ProductRepository = ProductRepository;
+    }
+    async createProductSupply(product,quantity,prefferredSupplyDate,toWarehouseId,fromWarehouseId){
+        try {
+        } catch (error) {
+            throw new Error(error);
+        }
     }
     async getProductSupply(productSupply){
         try {
@@ -11,18 +18,6 @@ class ProductSupplyRepository{
             })
             await supply.save();
             return supply;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-    async assingRecievedProductSupplyToWarehouse(productSupply){
-        try {
-            const warehouse = await this.WarehouseRepository.getWarehouseById(productSupply.toWarehouseId);
-            const supply = await this.ProductSupply({
-                ...productSupply
-            });
-            
-
         } catch (error) {
             throw new Error(error);
         }
