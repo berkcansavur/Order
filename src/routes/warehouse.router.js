@@ -6,7 +6,7 @@ const {container} = require('../di-setup');
 const warehouseController = container.resolve('WarehouseController');
 const auth = require('../middlewares/authentication.middleware');
 
-router.post('/warehouse',validateRequest(validateWarehouseSchema),warehouseController.addWarehouse);
+router.post('/warehouse/createWarehouse',validateRequest(validateWarehouseSchema),warehouseController.addWarehouse);
 
 router.post('/warehouse/updateWarehouseById',warehouseController.updateWarehousesProductsById);
 

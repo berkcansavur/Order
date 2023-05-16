@@ -6,13 +6,13 @@ const {container} = require('../di-setup');
 const courierController = container.resolve('CourierController');
 const auth = require('../middlewares/authentication.middleware');
 //ROUTERS
-router.post('/couriers', validateRequest(validateCourierSchema),courierController.createCourier);
+router.post('/couriers/createCourier', validateRequest(validateCourierSchema),courierController.createCourier);
 
 router.post('/couriers/login', validateRequest(validateCourierSchema),courierController.loginCourier);
 
 router.post('/couriers/logout',auth, validateRequest(validateCourierSchema),courierController.logoutCourier);
 
-router.delete('/couriers/me',auth,validateRequest(validateCourierSchema),courierController.deleteCourier);
+router.delete('/couriers/removeCourier',auth,validateRequest(validateCourierSchema),courierController.deleteCourier);
 
 router.post('/couriers/logout',auth,validateRequest(validateCourierSchema),courierController.logoutCourier);
 

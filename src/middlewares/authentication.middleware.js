@@ -84,7 +84,7 @@ const auth = async(req,res,next)=>{
             }
             
         }
-        if(root.toString().includes('/couriers')){
+        if(root.toString().includes('/couriers/login')){
             const token = req.header('Authorization').replace('Bearer ','');
             const decoded = jwt.verify(token,process.env.JWT_SECRET);
             if(!decoded) {
@@ -107,7 +107,17 @@ const auth = async(req,res,next)=>{
             }
             
         }
-        if(root.toString().includes('/management')){
+        if(root.toString().includes('/management')
+        ||root.toString().includes('/createWarehouse')
+        ||root.toString().includes('/removeWarehouse')
+        ||root.toString().includes('/createCourier')
+        ||root.toString().includes('/removeCourier')
+        ||root.toString().includes('/addProduct')
+        ||root.toString().includes('/removeProduct')
+        ||root.toString().includes('/updateProduct')
+        ||root.toString().includes('/createWarehouseManager')
+        ||root.toString().includes('/approveProductSupply')
+        ||root.toString().includes('/approveCourierSupply')){
             const token = req.header('Authorization').replace('Bearer ','');
             const decoded = jwt.verify(token,process.env.JWT_SECRET);
             if(!decoded) {
@@ -152,29 +162,9 @@ const auth = async(req,res,next)=>{
                 throw new Error('Users token has not found');
             }
         }
-        if(root.toString().includes('/products')){
-            const token = req.header('Authorization').replace('Bearer ','');
-            const decoded = jwt.verify(token,process.env.JWT_SECRET);
-            if(!decoded) {
-            throw new Error('token can not verify');
-            }
-            const courier = await CourierRepository.getCourierById(decoded.courierId);
-            const findedCourier = await courier.tokens.filter((tokens)=>{
-                return tokens.token ==token
-            });
-            if (!courier) {
-                throw new Error('Courier has not found!');
-            }
-            if(findedCourier.length!==0){
-                req.token = token;
-                req.courier = courier;
-                next();
-            }
-            if(findedCourier.length===0){
-                throw new Error('Couriers token has not found')
-            }
-        }
-        if(root.toString().includes('/warehouse-manager')){
+        if(root.toString().includes('/warehouse-manager/login')||
+        root.toString().includes('/createProductSupplyRequest')||
+        root.toString().includes('/createCourierSupplyRequest')){
             const token = req.header('Authorization').replace('Bearer ','');
             const decoded = jwt.verify(token,process.env.JWT_SECRET);
             if(!decoded) {

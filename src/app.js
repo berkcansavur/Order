@@ -25,6 +25,6 @@ app.use(ProductRouter);
 app.use(WareHouseManagerRouter);
 app.use(ManagementRouter);
 app.use(WarehouseRouter);
-appçuse(ProductSupplyRouter);
+app.use(ProductSupplyRouter);
 
 module.exports = app;
