@@ -39,7 +39,10 @@ const WarehouseController = require('./controllers/warehouse.controller');
 const {ProductSupplySchema} = require('./models/product-supply.model');
 const ProductSupplyRepository = require('./repositories/product-supply.repository');
 const ProductSupplyService = require('./services/product-supply.service');
-const ProductSupplyController = require('./controllers/product-supply.controller');
+//CourierSupply Dependencies
+const {CourierSupplySchema} = require('./models/courier-supply.model');
+const CourierSupplyRepository = require('./repositories/courier-supply.repository');
+const CourierSupplyService = require('./services/courier-supply.service');
 
 
 const container = awilix.createContainer();
@@ -86,8 +89,10 @@ function setup(){
         ProductSupplySchema: awilix.asValue(ProductSupplySchema),
         ProductSupplyRepository: awilix.asClass(ProductSupplyRepository),
         ProductSupplyService: awilix.asClass(ProductSupplyService),
-        ProductSupplyController:awilix.asClass(ProductSupplyController)
 
+        CourierSupplySchema : awilix.asValue(CourierSupplySchema),
+        CourierSupplyRepository : awilix.asClass(CourierSupplyRepository),
+        CourierSupplyService : awilix.asClass(CourierSupplyService) 
     });
 }
 module.exports = {container,setup};

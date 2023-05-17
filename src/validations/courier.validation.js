@@ -1,6 +1,6 @@
 const {Joi} = require('celebrate');
 
-const validateCourierSchema = Joi.object({
+const validateCreateCourierSchema = Joi.object({
     courierName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
@@ -11,4 +11,4 @@ const validateCourierSchema = Joi.object({
         order:Joi.object()
     }))
 })
-module.exports = validateCourierSchema;
+module.exports = validateCreateCourierSchema;

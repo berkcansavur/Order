@@ -1,10 +1,24 @@
 const Utils = require('../utils/utils');
 class ManagementService{
-    constructor({ManagementRepository}){
+    constructor({ManagementRepository,WarehouseRepository,WarehouseManagerRepository,CourierRepository,ProductRepository,ProductSupplyRepository,CourierSupplyRepository}){
         this.ManagementRepository = ManagementRepository;
+        this.WarehouseRepository =WarehouseRepository;
+        this.WarehouseManagerRepository = WarehouseManagerRepository;
+        this.CourierRepository = CourierRepository;
+        this.ProductRepository = ProductRepository;
+        this.ProductSupplyRepository = ProductSupplyRepository;
+        this.CourierSupplyRepository = CourierSupplyRepository;
         this.createManagement = this.createManagement.bind(this);
         this.createManager = this.createManager.bind(this);
         this.loginManager = this.loginManager.bind(this);
+        this.createWarehouseManager = this.createWarehouseManager.bind(this);
+        this.createWarehouse = this.createWarehouse.bind(this);
+        this.createCourier = this.createCourier.bind(this);
+        this.addProduct = this.addProduct.bind(this);
+        this.approveProductSupply = this.approveProductSupply.bind(this);
+        this.approveCourierSupply = this.approveCourierSupply.bind(this);
+        this.rejectProductSupply = this.rejectProductSupply.bind(this);
+        this.rejectCourierSupply = this.rejectCourierSupply.bind(this);
     }
     async createManager(manager){
         try {
@@ -31,6 +45,70 @@ class ManagementService{
         try {
             const newManagement = await this.ManagementRepository.createManagement(management);
             return newManagement;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async createWarehouseManager(warehouseManager){
+        try {
+            const newWarehouseManager = await this.WarehouseManagerRepository.createWarehouseManager(warehouseManager);
+            return newWarehouseManager;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async createWarehouse(warehouse){
+        try {
+            const newWarehouse = await this.WarehouseRepository.addWarehouse(warehouse);
+            return newWarehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async createCourier(courier){
+        try {
+            const newCourier = await this.CourierRepository.createCourier(courier);
+            return newCourier;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async addProduct(product){
+        try {
+            const newProduct = await this.ProductRepository.registerProduct(product);
+            return newProduct;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async approveProductSupply(productSupply){
+        try {
+            const approvedProductSupply = await this.ProductSupplyRepository.approveProductSupply(productSupply);
+            return approvedProductSupply;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async rejectProductSupply(productSupply){
+        try {
+            const rejectedProductSupply = await this.ProductSupplyRepository.rejectProductSupply(productSupply);
+            return rejectedProductSupply;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async approveCourierSupply(courierSupply){
+        try {
+            const approvedCourierSupply = await this.CourierSupplyRepository.approveCourierSupply(courierSupply);
+            return approvedCourierSupply;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async rejectCourierSupply(courierSupply){
+        try {
+            const rejectedCourierSupply = await this.CourierSupplyRequest(courierSupply);
+            return rejectedCourierSupply;
         } catch (error) {
             throw new Error(error);
         }

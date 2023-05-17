@@ -1,5 +1,5 @@
 const {Joi}= require('celebrate');
-const validateManagementSchema = Joi.object({
+const validateCreateManagementSchema = Joi.object({
     managerName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
@@ -22,4 +22,9 @@ const validateManagementSchema = Joi.object({
         courier: Joi.object(),
     }))
 });
-module.exports = validateManagementSchema;
+const validateCreateManagerSchema = Joi.object({
+    managerName: Joi.string().required(),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+});
+module.exports = validateCreateManagementSchema,validateCreateManagerSchema;

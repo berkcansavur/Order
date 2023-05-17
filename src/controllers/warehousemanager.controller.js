@@ -3,6 +3,7 @@ class WarehouseManagerController{
         this.WarehouseManagerService = WarehouseManagerService;
         this.createWarehouseManager = this.createWarehouseManager.bind(this);
         this.loginWarehouseManager = this.loginWarehouseManager.bind(this); 
+        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }   
     async createWarehouseManager(req,res){
         try {
@@ -23,9 +24,18 @@ class WarehouseManagerController{
     async addProductsToWarehouse(req,res){
         try {
             const products = await thisWarehouseManagerService.addProductsToWarehouse(req.warehouseManager,req.body);
+            return res.status(200).send(products);
             
         } catch (error) {
             return res.status(404).send(error);
+        }
+    }
+    async createProductSupplyRequest(req,res){
+        try {
+            const newProductSupplyRequest = await this.WarehouseManagerService.createProductSupplyRequest(req.body);
+            return res.status(201).send(newProductSupplyRequest);
+        } catch (error) {
+            throw new Error(error);
         }
     }
 }

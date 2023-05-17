@@ -15,7 +15,7 @@ class WarehouseController{
     }
     async updateWarehousesProductsById(req,res){
         try {
-            const updatedWarehouse = await this.WarehouseService.updateWarehousesProductsById(req.body._id,req.body);
+            const updatedWarehouse = await this.WarehouseService.updateWarehousesProductsById(req.params.wareHouseId,req.body);
             return res.status(201).send(updatedWarehouse);
         } catch (error) {
             return res.status(404).send(error);
@@ -23,7 +23,7 @@ class WarehouseController{
     }
     async getWarehousesSelectedProductById(req,res){
         try {
-            const products = await this.WarehouseService.getWarehousesSelectedProductById(req.body.wareHouseId,req.body.productId);
+            const products = await this.WarehouseService.getWarehousesSelectedProductById(req.params.wareHouseId,req.body.productId);
             return res.status(201).send(products);
         } catch (error) {
             return res.status(404).send(error);

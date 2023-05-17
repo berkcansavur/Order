@@ -1,11 +1,11 @@
 class ProductSupplyService{
     constructor({ProductSupplyRepository}){
         this.ProductSupplyRepository = ProductSupplyRepository;
-        this.createProductSupply = this.createProductSupply.bind(this);
+        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }
-    async createProductSupply(product,quantity,prefferredSupplyDate,toWarehouseId,fromWarehouseId){
+    async createProductSupplyRequest(productSupplyRequest){
         try {
-            const productSupply = await this.ProductSupplyRepository.createProductSupply(product,quantity,prefferredSupplyDate,toWarehouseId,fromWarehouseId);
+            const productSupply = await this.ProductSupplyRepository.createProductSupply(productSupplyRequest);
             return productSupply;
         } catch (error) {
             throw new Error(error);

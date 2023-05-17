@@ -1,24 +1,20 @@
 const mongoose = require('mongoose');
 const {CourierSupplyStatus} = require('../utils/constants');
 const courierSupplySchema = new mongoose.Schema({
-    productId:{
-        type:String,
-        required:true
-    },
-    quantity:{
-        type:Number,
+    courier:{
+        type:mongoose.Schema.Types.Object,
         required:true
     },
     preferredSupplyDate:{
         type:Date,
         required:true
     },
-    toWarehouseId:{
-        type:String,
+    toWarehouse:{
+        type:mongoose.Schema.Types.Object,
         required:true
     },
-    fromWarehouseId:{
-        type:String,
+    fromWarehouse:{
+        type:mongoose.Schema.Types.Object,
         required:true
     },
     status:{
@@ -28,5 +24,5 @@ const courierSupplySchema = new mongoose.Schema({
     }
 })
 
-const CourierSupply = mongoose.model('ProductSupply',productSupplySchema);
+const CourierSupply = mongoose.model('CourierSupply',courierSupplySchema);
 module.exports = {CourierSupply,courierSupplySchema};

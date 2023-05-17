@@ -1,5 +1,5 @@
 const {Joi} = require('celebrate');
-const validateWarehouseSchema= Joi.object({
+const validateCreateWarehouseSchema= Joi.object({
     name:Joi.string().required(),
     location:Joi.string().required(),
     products:Joi.array().items(Joi.object({
@@ -12,3 +12,4 @@ const validateWarehouseSchema= Joi.object({
         courier:Joi.object(),
     }))
 })
+module.exports = validateCreateWarehouseSchema;

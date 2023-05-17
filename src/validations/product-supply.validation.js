@@ -1,6 +1,6 @@
 const {Joi} = require('celebrate');
 const {ProductSupplyStatus} = require('../utils/constants');
-const validateProductSupplySchema = Joi.object({
+const validateCreateProductSupplySchema = Joi.object({
     product:Joi.object(),
     quantity: Joi.number().required(),
     preferredSupplyDate: Joi.date().required(),
@@ -9,4 +9,4 @@ const validateProductSupplySchema = Joi.object({
     status: Joi.string().valid(...Object.values(ProductSupplyStatus)).default(ProductSupplyStatus.CREATED),
   });
   
-module.exports = validateProductSupplySchema;
+module.exports = validateCreateProductSupplySchema;

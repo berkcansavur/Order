@@ -10,6 +10,6 @@ router.post('/warehouse-manager/createWarehouseManager',auth,validateRequest(val
 
 router.post('/warehouse-manager/login',validateRequest(validateWarehouseManagerSchema),WarehouseManagerController.loginWarehouseManager);
 
-router.post('/warehouse-manager/createProductSupplyRequest',WarehouseManagerController.addProductsToWarehouse);
+router.post('/warehouse-manager/createProductSupplyRequest',auth,WarehouseManagerController.createProductSupplyRequest);
 
 module.exports = router;
