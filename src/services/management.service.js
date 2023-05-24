@@ -1,5 +1,5 @@
 const Utils = require('../utils/utils');
-module.exports = class ManagementService{
+class ManagementService{
     constructor({ManagementRepository,WarehouseRepository,WarehouseManagerRepository,CourierRepository,ProductRepository,ProductSupplyRepository,CourierSupplyRepository}){
         this.ManagementRepository = ManagementRepository;
         this.WarehouseRepository =WarehouseRepository;
@@ -95,3 +95,4 @@ module.exports = class ManagementService{
         }
     }
 }
+module.exports = ManagementService;

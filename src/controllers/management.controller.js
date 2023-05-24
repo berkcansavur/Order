@@ -2,7 +2,6 @@ class ManagementController{
     constructor({ManagementService,WarehouseManagerService}){
         this.ManagementService = ManagementService;
         this.WarehouseManagerService = WarehouseManagerService;
-
     }
     async createManager(req,res){
         try {
