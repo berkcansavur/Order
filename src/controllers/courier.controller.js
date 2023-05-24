@@ -1,4 +1,4 @@
-class CourierController{
+module.exports = class CourierController{
     constructor({CourierService}){
         this.CourierService = CourierService;
     }
@@ -51,4 +51,3 @@ class CourierController{
         }
     }
 }
-module.exports = CourierController;

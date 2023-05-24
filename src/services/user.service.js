@@ -6,7 +6,7 @@ class UserService{
     async createUser(user){
         try {
             const newUser = await this.UserRepository.createUser(user);
-            const token = await Utils.generateAuthToken('user',newUser._id);
+            const token =  Utils.generateAuthToken('user',newUser._id);
             const createdUser = await this.UserRepository.getUserById(newUser._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,createdUser);
             return authenticatedUser;
@@ -79,7 +79,7 @@ class UserService{
     async loginUser(email,password){
         try {
             const user = await Utils.findByCredentials('user',email,password);
-            const token = await Utils.generateAuthToken('user',user._id);
+            const token =  Utils.generateAuthToken('user',user._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,user);
             return authenticatedUser ;
         } catch (error) {

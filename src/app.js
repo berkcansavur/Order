@@ -10,11 +10,13 @@ const WareHouseManagerRouter = require('./routes/warehousemanager.router');
 const ManagementRouter = require('./routes/management.router');
 
 
+
 //express application
 const app  = express();
 //Parse incoming request bodies as JSON
 app.use(bodyParser.json());
 app.use(express.json());
+
 //Use Routers
 app.use(UserRouter);
 app.use(CourierRouter);
