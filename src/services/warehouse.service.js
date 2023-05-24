@@ -58,7 +58,7 @@ class WarehouseService{
     }
     async deleteWarehouseById(warehouseId){
         try {
-            const warehouse = await this.removeWarehouseById(warehouseId.toString());
+            const warehouse = await this.WarehouseRepository.removeWarehouseById(warehouseId.toString());
             return warehouse;
         } catch (error) {
             throw new Error(error);

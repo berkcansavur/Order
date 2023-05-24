@@ -33,7 +33,7 @@ class WarehouseController{
     async deleteWarehouse(req,res){
         try {
             const deletedWarehouse = await this.WarehouseService.deleteWarehouseById(req.params.warehouseId);
-            return res.status(204).send(deletedWarehouse);
+            return res.status(200).send(deletedWarehouse);
         } catch (error) {
             return res.status(404).send(error);
         }
