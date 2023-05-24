@@ -14,7 +14,7 @@ const {
     validateDeleteOrderSchema,
     validateUpdateOrderSchema,
     validateUpdateOrderStatusSchema} = require('../validations/order.validation');
-    
+
 const {container} = require('../di-setup');
 //Controllers
 const userController = container.resolve('UserController');

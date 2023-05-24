@@ -3,15 +3,6 @@ class WarehouseRepository{
     constructor({WarehouseSchema,ProductRepository}){
         this.Warehouse = mongoose.model('Warehouse',WarehouseSchema);
         this.ProductRepository = ProductRepository;
-        this.addWarehouse = this.addWarehouse.bind(this);
-        this.removeWarehouseById = this.removeWarehouseById.bind(this);
-        this.getWarehouseById= this.getWarehouseById.bind(this);
-        this.getWarehousesProductsById = this.getWarehousesProductsById.bind(this);
-        this.getWarehousesSelectedProductById = this.getWarehousesSelectedProductById.bind(this);
-        this.getWarehousesProductNameById = this.getWarehousesProductNameById.bind(this);
-        this.consumeProductsFromWarehouseById = this.consumeProductsFromWarehouseById.bind(this);
-        this.addProductsToWarehouseById = this.addProductsToWarehouseById.bind(this);
-        this.updateWarehousesSelectedProductById = this.updateWarehousesSelectedProductById.bind(this);
     }   
     async addWarehouse(warehouse){
         try {
@@ -64,33 +55,6 @@ class WarehouseRepository{
                 }
             })
             return productName;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-    async consumeProductsFromWarehouseById(warehouseId, product){
-        try {
-            const warehouse = await this.getWarehouseById(warehouseId.toString());
-            await warehouse.products.map((element)=>{
-                if(element.product.productId === product.productId|| element.product.productQuantity >= product.productQuantity) {
-                    const calcualtion = element.product.productQuantity-product.productQuantity;
-                    element.product.productQuantity = calcualtion;                }
-            })
-            await warehouse.save();
-            return warehouse;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-    async addProductsToWarehouseById(warehouseId, product){
-        try {
-            const warehouse = await this.getWarehouseById(warehouseId.toString());
-            await warehouse.products.map((element)=>{
-                if(element.product.productId === product.productId || element.product.productQuantity>0){
-                    const calculation = element.product.productQuantity + product.productQuantity;
-                    element.product.productQuantity = calculation;
-                }
-            })
         } catch (error) {
             throw new Error(error);
         }

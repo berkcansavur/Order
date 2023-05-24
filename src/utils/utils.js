@@ -52,16 +52,16 @@ async function authenticateLogger(root,token,logger){
         tokens.push({token});
         warehouseManagerToBeAuthenticated.tokens = tokens;
         await warehouseManagerToBeAuthenticated.save();
-        const responsewarehouseManagerToBeAuthenticated={
+        const responseWarehouseManagerToBeAuthenticated={
             name: warehouseManagerToBeAuthenticated.name,
             email: warehouseManagerToBeAuthenticated.email,
             token:token
         }
-        return responsewarehouseManagerToBeAuthenticated;
+        return responseWarehouseManagerToBeAuthenticated;
     
 }
 }
-async function generateAuthToken(root,Id){
+function generateAuthToken(root,Id){
     if(root === 'courier'){
         const token = jwt.sign({courierId: Id },process.env.JWT_SECRET);
         return token;

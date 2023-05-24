@@ -29,5 +29,35 @@ class WarehouseService{
             throw new Error(error);
         }
     }
+    async consumeProductsFromWarehouseById(warehouseId,product){
+        try {
+            const warehouse = await this.WarehouseRepository.getWarehouseById(warehouseId.toString());
+            await warehouse.products.map((element)=>{
+                if(element.product.productId === product.productId && element.product.productQuantity >= product.productQuantity){
+                    const calcualtion = element.product.productQuantity-product.productQuantity;
+                    element.product.productQuantity = calcualtion; 
+                }
+            })
+            await warehouse.save();
+            return warehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async addProductsToWarehouseById(warehouseId, product){
+        try {
+            const warehouse = await this.WarehouseRepository.getWarehouseById(warehouseId.toString());
+            await warehouse.products.map((element)=>{
+                if(element.product.productId === product.productId && element.product.productQuantity>0){
+                    const calculation = element.product.productQuantity + product.productQuantity;
+                    element.product.productQuantity = calculation;
+                }
+            })
+            await warehouse.save();
+            return warehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
 module.exports = WarehouseService;

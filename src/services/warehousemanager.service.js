@@ -1,19 +1,17 @@
 const Utils = require('../utils/utils');
-class WarehouseManagerService{
+module.exports = class WarehouseManagerService{
     constructor({WarehouseManagerRepository,ProductRepository,CourierRepository,ProductSupplyService}){
         this.ProductRepository = ProductRepository;
         this.CourierRepository = CourierRepository;
         this.ProductSupplyService = ProductSupplyService;
         this.WarehouseManagerRepository = WarehouseManagerRepository;
-        this.createWarehouseManager = this.createWarehouseManager.bind(this);
-        this.loginWarehouseManager = this.loginWarehouseManager.bind(this); 
-        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }
     async createWarehouseManager(warehouseManager){
+        const {WarehouseManagerRepository} = this;
         try {
-            const newWarehouseManager = await this.WarehouseManagerRepository.createWarehouseManager(warehouseManager);
-            const token = await Utils.generateAuthToken('warehousemanager',newWarehouseManager._id);
-            const createdWarehouseManager = await this.WarehouseManagerRepository.getWarehouseManagerById(newWarehouseManager._id);
+            const newWarehouseManager = await WarehouseManagerRepository.createWarehouseManager(warehouseManager);
+            const token = Utils.generateAuthToken('warehousemanager',newWarehouseManager._id);
+            const createdWarehouseManager = await WarehouseManagerRepository.getWarehouseManagerById(newWarehouseManager._id);
             const authenticatedWarehouseManager = await Utils.authenticateLogger('warehousemanager',token,createdWarehouseManager);
             return authenticatedWarehouseManager;
         } catch (error) {
@@ -46,4 +44,3 @@ class WarehouseManagerService{
         }
     }
 }
-module.exports = WarehouseManagerService;

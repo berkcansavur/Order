@@ -8,17 +8,6 @@ class ManagementService{
         this.ProductRepository = ProductRepository;
         this.ProductSupplyRepository = ProductSupplyRepository;
         this.CourierSupplyRepository = CourierSupplyRepository;
-        this.createManagement = this.createManagement.bind(this);
-        this.createManager = this.createManager.bind(this);
-        this.loginManager = this.loginManager.bind(this);
-        this.createWarehouseManager = this.createWarehouseManager.bind(this);
-        this.createWarehouse = this.createWarehouse.bind(this);
-        this.createCourier = this.createCourier.bind(this);
-        this.addProduct = this.addProduct.bind(this);
-        this.approveProductSupply = this.approveProductSupply.bind(this);
-        this.approveCourierSupply = this.approveCourierSupply.bind(this);
-        this.rejectProductSupply = this.rejectProductSupply.bind(this);
-        this.rejectCourierSupply = this.rejectCourierSupply.bind(this);
     }
     async createManager(manager){
         try {

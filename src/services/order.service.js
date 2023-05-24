@@ -1,25 +1,14 @@
-class OrderService{
-    constructor({OrderRepository,ProductRepository,WarehouseRepository}){
+module.exports = class OrderService{
+    constructor({OrderRepository,ProductRepository,WarehouseService}){
         this.OrderRepository = OrderRepository;
-        this.WarehouseRepository = WarehouseRepository;
         this.ProductRepository = ProductRepository;
-        this.createOrder = this.createOrder.bind(this);
-        this.getOrderById = this.getOrderById.bind(this);
-        this.assignOrderToCourier = this.assignOrderToCourier.bind(this);
-        this.assignCourierToOrder = this.assignCourierToOrder.bind(this);
-        this.updateOrderById = this.updateOrderById.bind(this);
-        this.deleteOrderById = this.deleteOrderById.bind(this);
-        this.updateOrderStatusApprovedById = this.updateOrderStatusApprovedById.bind(this);
-        this.updateOrderStatusDeniedById = this.updateOrderStatusDeniedById.bind(this);
-        this.updateOrderStatusPreparingStartedById = this.updateOrderStatusPreparingStartedById.bind(this);
-        this.updateOrderStatusPreparingCompletedById = this.updateOrderStatusPreparingCompletedById.bind(this);
-        this.updateOrderStatusOnthewayById = this.updateOrderStatusOnthewayById.bind(this);
-        this.updateOrderStatusDeliveredById = this.updateOrderStatusDeliveredById.bind(this);
-        this.updateStatusCancelledById = this.updateStatusCancelledById.bind(this);
-
+        this.WarehouseService = WarehouseService
     }
     async createOrder(order,user){
         try {
+            for (const product of order.products) {
+                await this.WarehouseService.consumeProductsFromWarehouseById(order.fromWarehouseId,product.product);
+            };
             const newOrder = await this.OrderRepository.createOrder(order,user);
             return newOrder;
         } catch (error) {
@@ -140,4 +129,3 @@ class OrderService{
         }
     }
 }
-module.exports = OrderService;

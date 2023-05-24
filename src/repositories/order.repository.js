@@ -5,27 +5,10 @@ class OrderRepository{
         this.Order = mongoose.model('Order', OrderSchema);
         this.WarehouseRepository = WarehouseRepository;
         this.ProductRepository = ProductRepository;
-        this.createOrder = this.createOrder.bind(this);
-        this.getOrderById = this.getOrderById.bind(this);
-        this.deleteOrderById = this.deleteOrderById.bind(this);
-        this.updateOrderById = this.updateOrderById.bind(this);
         
     }
     async createOrder(order,user){
         try {
-            const products = [];
-            const warehouseId = order.fromWarehouseId;
-            order.products.forEach(product => {
-                products.push(product);
-            });
-            const referanceToClass = this;
-            async function updateWarehouse(productArray){
-                for (let i = 0; i<productArray.length; i++){
-                    const product = productArray[i];
-                    return await referanceToClass.WarehouseRepository.consumeProductsFromWarehouseById(warehouseId,product.product);
-                }
-            }
-            await updateWarehouse(order.products);
             const newOrder = await this.Order({
                 customer:{
                     _id:user._id.toString(),

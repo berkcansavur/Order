@@ -46,7 +46,7 @@ class ManagementController{
     }
     async createWarehouse(req,res){
         try {
-            const warehouse = await this.ManagementService.createWarehouse();
+            const warehouse = await this.ManagementService.createWarehouse(req.body);
             return res.status(201).send(warehouse);
         } catch (error) {
             return res.status(404).send(error);
