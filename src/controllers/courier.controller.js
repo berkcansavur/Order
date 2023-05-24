@@ -28,7 +28,7 @@ class CourierController{
     }
     async deleteCourier(req,res){
         try {
-            const deletedCourier = await this.CourierService.deleteCourierById(req.courier._id);
+            const deletedCourier = await this.CourierService.deleteCourierById(req.params.courierId);
             return res.status(200).send(deletedCourier);
         } catch (error) {
             return res.status(404).send(error.message);

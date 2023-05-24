@@ -54,14 +54,6 @@ class ManagementService{
             throw new Error(error);
         }
     }
-    async createCourier(courier){
-        try {
-            const newCourier = await this.CourierRepository.createCourier(courier);
-            return newCourier;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
     async addProduct(product){
         try {
             const newProduct = await this.ProductRepository.registerProduct(product);
@@ -94,9 +86,9 @@ class ManagementService{
             throw new Error(error);
         }
     }
-    async rejectCourierSupply(courierSupply){
+    async rejectCourierSupply(courierSupplyId){
         try {
-            const rejectedCourierSupply = await this.CourierSupplyRequest(courierSupply);
+            const rejectedCourierSupply = await this.CourierSupplyRepository.rejectCourierSupply(courierSupplyId);
             return rejectedCourierSupply;
         } catch (error) {
             throw new Error(error);

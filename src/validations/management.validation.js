@@ -22,9 +22,13 @@ const validateCreateManagementSchema = Joi.object({
         courier: Joi.object(),
     }))
 });
+const validateLoginManagerSchema= Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+});
 const validateCreateManagerSchema = Joi.object({
     managerName: Joi.string().required(),
     email: Joi.string().required(),
     password: Joi.string().required(),
 });
-module.exports = validateCreateManagementSchema,validateCreateManagerSchema;
+module.exports = validateCreateManagementSchema,validateCreateManagerSchema,validateLoginManagerSchema;

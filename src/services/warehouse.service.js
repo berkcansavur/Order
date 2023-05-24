@@ -56,5 +56,13 @@ class WarehouseService{
             throw new Error(error);
         }
     }
+    async deleteWarehouseById(warehouseId){
+        try {
+            const warehouse = await this.removeWarehouseById(warehouseId.toString());
+            return warehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
 module.exports = WarehouseService;

@@ -8,5 +8,7 @@ const validateCreateProductSupplySchema = Joi.object({
     fromWarehouseId: Joi.object().required(),
     status: Joi.string().valid(...Object.values(ProductSupplyStatus)).default(ProductSupplyStatus.CREATED),
   });
-  
-module.exports = validateCreateProductSupplySchema;
+const validateDeleteProductSupplySchema = Joi.object({
+  _id:Joi.object().required()
+});
+module.exports = validateCreateProductSupplySchema,validateDeleteProductSupplySchema;

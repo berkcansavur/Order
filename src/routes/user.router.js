@@ -33,7 +33,7 @@ router.get('/users/me', auth,validateRequest(validateGetUserSchema),userControll
 
 router.delete('/users/me', auth, validateRequest(validateDeleteUserSchema),userController.deleteUser);
 
-router.patch('/users/me',auth, validateRequest(validateUpdateUserSchema),userController.updateUser);
+router.post('/users/me',auth, validateRequest(validateUpdateUserSchema),userController.updateUser);
 
 // Order Related
 

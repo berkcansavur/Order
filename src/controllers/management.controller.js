@@ -1,6 +1,7 @@
 class ManagementController{
-    constructor({ManagementService}){
+    constructor({ManagementService,WarehouseManagerService}){
         this.ManagementService = ManagementService;
+        this.WarehouseManagerService = WarehouseManagerService;
 
     }
     async createManager(req,res){
@@ -29,7 +30,7 @@ class ManagementController{
     }
     async createWarehouseManager(req,res){
         try {
-            const warehouseManager = await this.ManagementService.createWarehouseManager();
+            const warehouseManager = await this.WarehouseManagerService.createWarehouseManager(req.body);
             return res.status(201).send(warehouseManager);
 
         } catch (error) {
@@ -46,7 +47,7 @@ class ManagementController{
     }
     async createCourier(req,res){
         try {
-            const courier = await this.ManagementService.createCourier();
+            const courier = await this.ManagementService.createCourier(req.body);
             return res.status(201).status(courier);
         } catch (error) {
             return res.status(404).send(error);
@@ -54,7 +55,7 @@ class ManagementController{
     }
     async addProduct(req,res){
         try {
-            const product = await this.ManagementService.addProduct();
+            const product = await this.ManagementService.addProduct(req.body);
             return res.status(201).status(product);
         } catch (error) {
             return res.status(404).send(error);
@@ -62,15 +63,31 @@ class ManagementController{
     }
     async approveProductSupply(req,res){
         try {
-            const productSupply = await this.ManagementService.approveProductSupply();
+            const productSupply = await this.ManagementService.approveProductSupply(req.params.productSupplyId);
             return res.status(201).send(productSupply);
         } catch (error) {
             return res.status(404).send(error);
         }
     }
+    async rejectProductSupply(req,res){
+        try {
+            const rejectedProductSupply = await this.ManagementService.rejectProductSupply(req.params.productSupplyId);
+            return res.status(404).send(rejectedProductSupply);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
     async approveCourierSupply(req,res){
         try {
-            const courierSupply = await this.ManagementService.approveCourierSupply();
+            const courierSupply = await this.ManagementService.approveCourierSupply(req.params.courierSupplyId);
+            return res.status(201).send(courierSupply);
+        } catch (error) {
+            return res.status(404).send(error);
+        }
+    }
+    async rejectCourierSupply(req,res){
+        try {
+            const courierSupply = await this.ManagementService.rejectCourierSupply(req.params.courierSupplyId);
             return res.status(201).send(courierSupply);
         } catch (error) {
             return res.status(404).send(error);
