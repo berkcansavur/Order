@@ -23,7 +23,7 @@ class ManagementService{
     async loginManager(email, password){
         try {
             const manager = await Utils.findByCredentials('manager',email,password);
-            const token = await Utils.generateAuthToken('manager',manager._id);
+            const token =  Utils.generateAuthToken('manager',manager._id);
             const authenticatedManager = await Utils.authenticateLogger('manager',token,manager);
             return authenticatedManager;
         } catch (error) {
