@@ -1,14 +1,6 @@
 class ManagementController{
     constructor({ManagementService}){
         this.ManagementService = ManagementService;
-        this.createManagement = this.createManagement.bind(this);
-        this.createManager = this.createManager.bind(this);
-        this.loginManager = this.loginManager.bind(this);
-        this.createWarehouseManager = this.createWarehouseManager.bind(this);
-        this.createWarehouse = this.createWarehouse.bind(this);
-        this.addProduct = this.addProduct.bind(this);
-        this.approveProductSupply = this.approveProductSupply.bind(this);
-        this.approveCourierSupply = this.approveCourierSupply.bind(this);
 
     }
     async createManager(req,res){

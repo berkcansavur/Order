@@ -1,7 +1,6 @@
 class ProductSupplyService{
     constructor({ProductSupplyRepository}){
         this.ProductSupplyRepository = ProductSupplyRepository;
-        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }
     async createProductSupplyRequest(productSupplyRequest){
         try {

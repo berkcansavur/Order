@@ -5,11 +5,6 @@ class ProductSupplyRepository{
         this.ProductSupply= mongoose.model('ProductSupply',ProductSupplySchema);
         this.WarehouseRepository = WarehouseRepository;
         this.ProductRepository = ProductRepository;
-        this.createProductSupply = this.createProductSupply.bind(this);
-        this.getProductSupplyById = this.getProductSupplyById.bind(this);
-        this.getAllProductSupplies = this.getAllProductSupplies.bind(this);
-        this.approveProductSupply = this.approveProductSupply.bind(this);
-        this.rejectProductSupply =this.rejectProductSupply.bind(this);
     }
     async createProductSupply(productSupplyRequest){
         try {

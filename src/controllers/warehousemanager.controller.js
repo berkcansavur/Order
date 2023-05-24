@@ -1,9 +1,6 @@
 class WarehouseManagerController{
     constructor({WarehouseManagerService}){
         this.WarehouseManagerService = WarehouseManagerService;
-        this.createWarehouseManager = this.createWarehouseManager.bind(this);
-        this.loginWarehouseManager = this.loginWarehouseManager.bind(this); 
-        this.createProductSupplyRequest = this.createProductSupplyRequest.bind(this);
     }   
     async createWarehouseManager(req,res){
         try {

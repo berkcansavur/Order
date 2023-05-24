@@ -3,12 +3,6 @@ class CourierService{
     constructor({CourierRepository,OrderRepository}){
         this.CourierRepository = CourierRepository;
         this.OrderRepository = OrderRepository;
-        this.createCourier = this.createCourier.bind(this);
-        this.loginCourier = this.loginCourier.bind(this);
-        this.logoutCourier = this.logoutCourier.bind(this);
-        this.deleteCourierById = this.deleteCourierById.bind(this); 
-        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
-        this.removeCourierOrderById = this.removeCourierOrderById.bind(this);
     }
     async createCourier(courier){
         try {

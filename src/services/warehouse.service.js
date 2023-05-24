@@ -1,9 +1,6 @@
 class WarehouseService{
     constructor({WarehouseRepository}){
         this.WarehouseRepository = WarehouseRepository;
-        this.addWarehouse = this.addWarehouse.bind(this);
-        this.updateWarehousesProductsById = this.updateWarehousesProductsById.bind(this);
-        this.getWarehousesSelectedProductById = this.getWarehousesSelectedProductById.bind(this);
     }
     async addWarehouse(warehouse){
         try {

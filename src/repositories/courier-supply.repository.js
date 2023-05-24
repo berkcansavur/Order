@@ -5,11 +5,6 @@ class CourierSupplyRepository{
         this.CourierSupply = mongoose.model('CourierSupply',CourierSupplySchema);
         this.WarehouseRepository = WarehouseRepository;
         this.CourierRepository = CourierRepository;
-        this.createCourierSupply = this.createCourierSupply.bind(this);
-        this.getCourierSupplyById = this.getCourierSupplyById.bind(this);
-        this.getAllCourierSupplies = this.getAllCourierSupplies.bind(this);
-        this.approveCourierSupply = this.approveCourierSupply.bind(this);
-        this.rejectCourierSupply =this.rejectCourierSupply.bind(this);
     }
     async createCourierSupply(courierId,preferredSupplyDate,toWarehouseId,fromWarehouseId){
         try {

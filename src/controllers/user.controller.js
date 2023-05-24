@@ -1,12 +1,6 @@
 class UserController{
     constructor({UserService}){
         this.UserService = UserService;
-        this.createUser = this.createUser.bind(this);
-        this.loginUser = this.loginUser.bind(this);
-        this.logoutUser = this.logoutUser.bind(this);
-        this.getMe = this.getMe.bind(this);
-        this.deleteUser = this.deleteUser.bind(this);
-        this.updateUser = this.updateUser.bind(this);
     }
     async createUser(req,res){
         try {

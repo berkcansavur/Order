@@ -1,7 +1,6 @@
 class CourierSupplyService{
     constructor({CourierSupplyRepository}){
         this.CourierSupplyRepository = CourierSupplyRepository;
-        this.createCourierSupplyRequest = this.createCourierSupplyRequest.bind(this);
     }
     async createCourierSupplyRequest(courierSupplyRequest){
         try {

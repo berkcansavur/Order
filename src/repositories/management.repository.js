@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 class ManagementRepository{
     constructor({ManagementSchema}){
         this.Management = mongoose.model('Management',ManagementSchema);
-        this.createManagement = this.createManagement.bind(this);
-        this.createManager = this.createManager.bind(this);
-        this.updateManagerById = this.updateManagerById.bind(this);
-        this.deleteManagerById = this.deleteManagerById.bind(this);
     }
     async createManager(manager){
         try {
