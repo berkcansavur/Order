@@ -1,4 +1,4 @@
-module.exports = class ManagementController{
+class ManagementController{
     constructor({ManagementService,WarehouseManagerService}){
         this.ManagementService = ManagementService;
         this.WarehouseManagerService = WarehouseManagerService;
@@ -94,3 +94,4 @@ module.exports = class ManagementController{
         }
     }
 }
+module.exports = ManagementController;
