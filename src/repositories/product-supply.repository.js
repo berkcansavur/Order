@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
 const {ProductSupplyStatus} = require('../utils/constants');
 class ProductSupplyRepository{
-    constructor({ProductSupplySchema,WarehouseRepository,ProductRepository,}){
+    constructor({ProductSupplySchema}){
         this.ProductSupply= mongoose.model('ProductSupply',ProductSupplySchema);
-        this.WarehouseRepository = WarehouseRepository;
-        this.ProductRepository = ProductRepository;
+        
     }
-    async createProductSupply(productSupplyRequest){
+    async createProductSupply(product,toWarehouse,fromWarehouse,quantity,preferredSupplyDate){
         try {
-            const product = await this.ProductRepository.findById(productSupplyRequest.productId.toString());
-            const toWarehouse = await this.WarehouseRepository.getWarehouseById(productSupplyRequest.toWarehouseId.toString());
-            const fromWarehouse = await this.WarehouseRepository.getWarehouseById(productSupplyRequest.fromWarehouseId.toString());
-            const quantity =productSupplyRequest.quantity;
-            const preferredSupplyDate = productSupplyRequest.preferredSupplyDate;
+            
             const newProductSupply = await this.ProductSupply({
                 product: product,
                 quantity: quantity,
