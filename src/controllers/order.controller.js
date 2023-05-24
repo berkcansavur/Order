@@ -1,6 +1,19 @@
 class OrderController{
   constructor({OrderService}){
     this.OrderService = OrderService;
+    this.createOrder = this.createOrder.bind(this);
+    this.deleteOrder = this.deleteOrder.bind(this);
+    this.updateOrder = this.updateOrder.bind(this);
+    this.getOrdersOfUser = this.getOrdersOfUser.bind(this);
+    this.assignOrderToCourier = this.assignOrderToCourier.bind(this);
+    this.updateOrderStatusApproved = this.updateOrderStatusApproved.bind(this);
+    this.updateOrderStatusDenied = this.updateOrderStatusDenied.bind(this);
+    this.updateOrderStatusPreparingStarted = this.updateOrderStatusPreparingStarted.bind(this);
+    this.updateOrderStatusPreparingCompleted = this.updateOrderStatusPreparingCompleted.bind(this);
+    this.updateOrderStatusOntheway = this.updateOrderStatusOntheway.bind(this);
+    this.updateOrderStatusDelivered = this.updateOrderStatusDelivered.bind(this);
+    this.updateStatusCancelled = this.updateStatusCancelled.bind(this);
+
 }
   async createOrder(req, res){
     try{

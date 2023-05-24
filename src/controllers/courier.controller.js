@@ -1,6 +1,12 @@
 module.exports = class CourierController{
     constructor({CourierService}){
         this.CourierService = CourierService;
+        this.createCourier = this.createCourier.bind(this);
+        this.loginCourier = this.loginCourier.bind(this);
+        this.logoutCourier = this.loginCourier.bind(this);
+        this.deleteCourier = this.deleteCourier.bind(this);
+        this.removeCourierOrderById = this.removeCourierOrderById.bind(this);
+        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
     }
     async createCourier(req,res){
         try {

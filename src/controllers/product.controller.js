@@ -1,6 +1,7 @@
 class ProductController{
     constructor({ProductService}){
         this.ProductService = ProductService;
+        this.registerProduct = this.registerProduct.bind(this);
     }
     async registerProduct(req,res){
         try {
