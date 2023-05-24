@@ -1,0 +1,60 @@
+class UserController{
+    constructor({UserService}){
+        this.UserService = UserService;
+        this.createUser = this.createUser.bind(this);
+        this.loginUser = this.loginUser.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
+        this.getMe = this.getMe.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
+        this.updateUser = this.updateUser.bind(this);
+    }
+    async createUser(req,res){
+        try {
+            const user = await this.UserService.createUser(req.body);
+            return res.status(201).send(user);
+        } catch (error) {
+            return res.status(404).send(error.message);   
+        }
+    };
+    async loginUser(req,res){
+        try {
+            const loggedInUser = await this.UserService.loginUser(req.body.email,req.body.password);
+            return res.status(200).send(loggedInUser);
+        } catch (error) {
+            return res.status(404).send(error.message);
+        }
+    }
+    async logoutUser(req,res){
+        try {
+            const loggedoutUser = await this.UserService.logoutUser(req.user,req.token);
+            return res.send(loggedoutUser);
+        } catch (error) {
+            return res.status(404).send(error.message);
+        }
+    }
+    async getMe(req,res){
+        try {
+            const user = await this.UserService.getUserById(req.user._id);
+            return res.status(200).send(user);
+        } catch (error) {
+            return res.status(404).send(error.message);
+        }
+    }
+    async deleteUser(req,res){
+        try {
+            const user = await this.UserService.deleteUserById(req.user._id);
+            return res.status(200).send('User '+user.email+' is deleted');
+        } catch (error) {
+            return res.status(404).send(error.message); 
+        }
+    }
+    async updateUser(req,res){
+        try {
+            const updatedUser = await this.UserService.updateUserById(req.user._id,req.body);
+            return res.status(200).send('User has been updated '+updatedUser);
+        } catch (error) {
+            return res.status(404).send(error.message);
+        }
+    }
+}
+module.exports = UserController;
