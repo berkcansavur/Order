@@ -4,6 +4,7 @@ class WarehouseController{
         this.addWarehouse = this.addWarehouse.bind(this);
         this.updateWarehousesProductsById = this.updateWarehousesProductsById.bind(this);
         this.getWarehousesSelectedProductById = this.getWarehousesSelectedProductById.bind(this);
+        this.deleteWarehouse = this.deleteWarehouse.bind(this);
     }
     async addWarehouse(req,res){
         try {
@@ -25,6 +26,14 @@ class WarehouseController{
         try {
             const products = await this.WarehouseService.getWarehousesSelectedProductById(req.params.wareHouseId,req.body.productId);
             return res.status(201).send(products);
+        } catch (error) {
+            return res.status(404).send(error);
+        }
+    }
+    async deleteWarehouse(req,res){
+        try {
+            const deletedWarehouse = await this.WarehouseService.deleteWarehouseById(req.params.warehouseId);
+            return res.status(200).send(deletedWarehouse);
         } catch (error) {
             return res.status(404).send(error);
         }

@@ -12,4 +12,7 @@ const validateCreateWarehouseSchema= Joi.object({
         courier:Joi.object(),
     }))
 })
-module.exports = validateCreateWarehouseSchema;
+const validateDeleteWarehouseSchema = Joi.object({
+    warehouseId:Joi.string().required(),
+});
+module.exports = validateCreateWarehouseSchema,validateDeleteWarehouseSchema;

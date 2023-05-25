@@ -7,13 +7,9 @@ module.exports = class WarehouseManagerService{
         this.WarehouseManagerRepository = WarehouseManagerRepository;
     }
     async createWarehouseManager(warehouseManager){
-        const {WarehouseManagerRepository} = this;
         try {
-            const newWarehouseManager = await WarehouseManagerRepository.createWarehouseManager(warehouseManager);
-            const token = Utils.generateAuthToken('warehousemanager',newWarehouseManager._id);
-            const createdWarehouseManager = await WarehouseManagerRepository.getWarehouseManagerById(newWarehouseManager._id);
-            const authenticatedWarehouseManager = await Utils.authenticateLogger('warehousemanager',token,createdWarehouseManager);
-            return authenticatedWarehouseManager;
+            const newWarehouseManager = await this.WarehouseManagerRepository.createWarehouseManager(warehouseManager);
+            return newWarehouseManager;
         } catch (error) {
             throw new Error(error);
         }

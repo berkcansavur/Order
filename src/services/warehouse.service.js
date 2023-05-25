@@ -1,9 +1,6 @@
 class WarehouseService{
     constructor({WarehouseRepository}){
         this.WarehouseRepository = WarehouseRepository;
-        this.addWarehouse = this.addWarehouse.bind(this);
-        this.updateWarehousesProductsById = this.updateWarehousesProductsById.bind(this);
-        this.getWarehousesSelectedProductById = this.getWarehousesSelectedProductById.bind(this);
     }
     async addWarehouse(warehouse){
         try {
@@ -54,6 +51,14 @@ class WarehouseService{
                 }
             })
             await warehouse.save();
+            return warehouse;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+    async deleteWarehouseById(warehouseId){
+        try {
+            const warehouse = await this.WarehouseRepository.removeWarehouseById(warehouseId.toString());
             return warehouse;
         } catch (error) {
             throw new Error(error);

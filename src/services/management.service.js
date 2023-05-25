@@ -23,7 +23,7 @@ class ManagementService{
     async loginManager(email, password){
         try {
             const manager = await Utils.findByCredentials('manager',email,password);
-            const token = await Utils.generateAuthToken('manager',manager._id);
+            const token =  Utils.generateAuthToken('manager',manager._id);
             const authenticatedManager = await Utils.authenticateLogger('manager',token,manager);
             return authenticatedManager;
         } catch (error) {
@@ -50,14 +50,6 @@ class ManagementService{
         try {
             const newWarehouse = await this.WarehouseRepository.addWarehouse(warehouse);
             return newWarehouse;
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-    async createCourier(courier){
-        try {
-            const newCourier = await this.CourierRepository.createCourier(courier);
-            return newCourier;
         } catch (error) {
             throw new Error(error);
         }
@@ -94,9 +86,9 @@ class ManagementService{
             throw new Error(error);
         }
     }
-    async rejectCourierSupply(courierSupply){
+    async rejectCourierSupply(courierSupplyId){
         try {
-            const rejectedCourierSupply = await this.CourierSupplyRequest(courierSupply);
+            const rejectedCourierSupply = await this.CourierSupplyRepository.rejectCourierSupply(courierSupplyId);
             return rejectedCourierSupply;
         } catch (error) {
             throw new Error(error);

@@ -11,4 +11,7 @@ const validateCreateCourierSchema = Joi.object({
         order:Joi.object()
     }))
 })
-module.exports = validateCreateCourierSchema;
+const validateDeleteCourierSchema = Joi.object({
+    courierId: Joi.string().required()
+});
+module.exports = validateCreateCourierSchema,validateDeleteCourierSchema;

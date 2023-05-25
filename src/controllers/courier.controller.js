@@ -1,10 +1,11 @@
-class CourierController{
+module.exports = class CourierController{
     constructor({CourierService}){
         this.CourierService = CourierService;
         this.createCourier = this.createCourier.bind(this);
         this.loginCourier = this.loginCourier.bind(this);
-        this.logoutCourier= this.logoutCourier.bind(this);
-        this.deleteCourier= this.deleteCourier.bind(this);
+        this.logoutCourier = this.loginCourier.bind(this);
+        this.deleteCourier = this.deleteCourier.bind(this);
+        this.removeCourierOrderById = this.removeCourierOrderById.bind(this);
         this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
     }
     async createCourier(req,res){
@@ -33,7 +34,7 @@ class CourierController{
     }
     async deleteCourier(req,res){
         try {
-            const deletedCourier = await this.CourierService.deleteCourierById(req.courier._id);
+            const deletedCourier = await this.CourierService.deleteCourierById(req.params.courierId);
             return res.status(200).send(deletedCourier);
         } catch (error) {
             return res.status(404).send(error.message);
@@ -56,4 +57,3 @@ class CourierController{
         }
     }
 }
-module.exports = CourierController;

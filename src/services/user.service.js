@@ -2,23 +2,11 @@ const Utils = require('../utils/utils');
 class UserService{
     constructor({UserRepository}){
         this.UserRepository = UserRepository;
-        this.createUser = this.createUser.bind(this);
-        this.getUserById = this.getUserById.bind(this);
-        this.getUserNameById = this.getUserNameById.bind(this);
-        this.getUserEmailById = this.getUserEmailById.bind(this);
-        this.getAllUsers = this.getAllUsers.bind(this);
-        this.updateUserNameById = this.updateUserNameById.bind(this);
-        this.updateUserEmailById = this.updateUserEmailById.bind(this);
-        this.updateUserPasswordById = this.updateUserPasswordById.bind(this);
-        this.deleteUserById = this.deleteUserById.bind(this);
-        this.loginUser = this.loginUser.bind(this);
-        this.logoutUser = this.logoutUser.bind(this);
-        this.updateUserById = this.updateUserById.bind(this);
     }
     async createUser(user){
         try {
             const newUser = await this.UserRepository.createUser(user);
-            const token = await Utils.generateAuthToken('user',newUser._id);
+            const token =  Utils.generateAuthToken('user',newUser._id);
             const createdUser = await this.UserRepository.getUserById(newUser._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,createdUser);
             return authenticatedUser;
@@ -91,7 +79,7 @@ class UserService{
     async loginUser(email,password){
         try {
             const user = await Utils.findByCredentials('user',email,password);
-            const token = await Utils.generateAuthToken('user',user._id);
+            const token =  Utils.generateAuthToken('user',user._id);
             const authenticatedUser = await Utils.authenticateLogger('user',token,user);
             return authenticatedUser ;
         } catch (error) {

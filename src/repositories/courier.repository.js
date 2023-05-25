@@ -2,13 +2,6 @@ const mongoose = require('mongoose');
 class CourierRepository{
     constructor({CourierSchema}){
         this.Courier = mongoose.model('Courier',CourierSchema);
-        this.createCourier = this.createCourier.bind(this);
-        this.updateCourierById = this.updateCourierById.bind(this);
-        this.deleteCourierById = this.deleteCourierById.bind(this);
-        this.removeCouriersToken= this.removeCouriersToken.bind(this);
-        this.getCourierWarehouseById = this.getCourierWarehouseById.bind(this);
-        this.removeCourierOrderById =this.removeCourierOrderById.bind(this);
-        this.getCourierOrdersById = this.getCourierOrdersById.bind(this);
     }
     async createCourier(courier){
         try {

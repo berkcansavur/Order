@@ -3,19 +3,9 @@ const {CourierSupplyStatus} = require('../utils/constants');
 class CourierSupplyRepository{
     constructor({CourierSupplySchema,WarehouseRepository,CourierRepository,}){
         this.CourierSupply = mongoose.model('CourierSupply',CourierSupplySchema);
-        this.WarehouseRepository = WarehouseRepository;
-        this.CourierRepository = CourierRepository;
-        this.createCourierSupply = this.createCourierSupply.bind(this);
-        this.getCourierSupplyById = this.getCourierSupplyById.bind(this);
-        this.getAllCourierSupplies = this.getAllCourierSupplies.bind(this);
-        this.approveCourierSupply = this.approveCourierSupply.bind(this);
-        this.rejectCourierSupply =this.rejectCourierSupply.bind(this);
     }
-    async createCourierSupply(courierId,preferredSupplyDate,toWarehouseId,fromWarehouseId){
+    async createCourierSupply(courier,preferredSupplyDate,toWarehouse,fromWarehouse){
         try {
-            const courier = await this.CourierRepository.findById(courierId.toString());
-            const toWarehouse = await this.WarehouseRepository.getWarehouseById(toWarehouseId.toString());
-            const fromWarehouse = await this.WarehouseRepository.getWarehouseById(fromWarehouseId.toString());
             const newProductSupply = await this.ProductSupply({
                 courier: courier,
                 preferredSupplyDate:preferredSupplyDate,

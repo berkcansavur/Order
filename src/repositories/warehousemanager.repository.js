@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 class WarehouseManagerRepository{
     constructor({WarehouseManagerSchema}){
         this.WarehouseManager = mongoose.model('WarehouseManager', WarehouseManagerSchema);
-        this.createWarehouseManager = this.createWarehouseManager.bind(this);
     }
     async createWarehouseManager(warehouseManager){
         try {
