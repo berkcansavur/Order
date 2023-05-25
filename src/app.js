@@ -1,5 +1,8 @@
 const express = require('express');
-require('./db/mongoose');
+const Database = require('./db/mongoose');
+
+const db = Database.getInstance();
+db.connect();
 const bodyParser = require('body-parser');
 const {setup} = require('../src/di-setup');
 setup();
