@@ -18,7 +18,7 @@ The following software must be installed for the project to work properly:
 1. Clone this project:
 
    ```bash
-   git clone https://github.com/kullaniciadi/order-projesi.git
+   git clone https://github.com/kullaniciadi/Order.git
 
 2. Go to the project directory 
   cd order-projesi
